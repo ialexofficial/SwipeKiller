@@ -1,5 +1,8 @@
-﻿using ScriptableObjects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Utilities;
 using ViewModels;
 
@@ -10,26 +13,32 @@ namespace Components
     typeof(Collider),
     typeof(MeshFilter)
     )]
-    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(
+        typeof(MeshRenderer),
+        typeof(Animator)
+    )]
     public class Weapon : MonoBehaviour
     {
+    #if UNITY_EDITOR
+        [Header("Variable only for editor previewing")]
+        public WeaponScriptableObject PreviewingWeapon;
+        [Space]
+    #endif
+        
         [SerializeField] private int damage;
         [SerializeField] private LayerMask damagableLayers;
 
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
-        
+
         public void UpdateData(WeaponScriptableObject data)
         {
+            _meshFilter ??= GetComponent<MeshFilter>();
+            _meshRenderer ??= GetComponent<MeshRenderer>();
+            
             _meshFilter.mesh = data.WeaponMeshFilter.sharedMesh;
             _meshRenderer.material = data.WeaponMaterial;
             damage = data.Damage;
-        }
-
-        private void Start()
-        {
-            _meshFilter = GetComponent<MeshFilter>();
-            _meshRenderer = GetComponent<MeshRenderer>();
         }
 
         private void OnCollisionEnter(Collision other)

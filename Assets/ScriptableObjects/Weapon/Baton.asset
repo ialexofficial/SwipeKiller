@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 463305423ef54893ac9d90cd2168e795, type: 3}
-  m_Name: Default Weapon
+  m_Name: Baton
   m_EditorClassIdentifier: 
-  WeaponMeshFilter: {fileID: -8574235166236059537, guid: 378945692f0034a40b8f871220608e2f, type: 3}
+  WeaponMeshFilter: {fileID: -2636710514664053019, guid: 73123a813d882574abd074fa7cd4236f, type: 3}
   WeaponMaterial: {fileID: 2100000, guid: 6845c871c1c64e54d9c9b6dfc938d7a7, type: 2}
   Damage: 1

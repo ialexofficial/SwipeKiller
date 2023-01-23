@@ -1,71 +1,46 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Database.Interfaces;
 using Database.Structures;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
-using UnityEngine;
 
 namespace Database
 {
-    public class WeaponDatabase : IWeaponDatabase
+    public class WeaponDatabase : Database<PlayerWeapon>, IWeaponDatabase
     {
-        private const string SavesDir = "/Saves";
         private const string WeaponFile = "/Weapon.json";
         
         private static IWeaponDatabase _instance;
-        private readonly JsonSerializer _serializer;
-        private readonly string _fullSavesPath = Application.persistentDataPath + SavesDir;
-        private PlayerWeapon _playerWeapon;
-        
+
         public static IWeaponDatabase GetInstance => _instance ??= new WeaponDatabase();
 
         public void AddBoughtWeapon(string weaponName)
         {
-            _playerWeapon.BoughtWeapon ??= new HashSet<string>();
-            _playerWeapon.BoughtWeapon.Add(weaponName);
+            data.BoughtWeapon ??= new HashSet<string>();
+            data.BoughtWeapon.Add(weaponName);
             
-            SaveData();
+            Serialize();
         }
 
         public void SetPlayerSelectedWeapon(string weaponName)
         {
-            _playerWeapon.SelectedWeapon = weaponName;
+            data.SelectedWeapon = weaponName;
             
-            SaveData();
+            Serialize();
         }
 
         [CanBeNull]
         public IEnumerable<string> GetPlayerBoughtWeaponNames() =>
-            _playerWeapon.BoughtWeapon is null
+            data.BoughtWeapon is null
                 ? null
-                : from weapon in _playerWeapon.BoughtWeapon select weapon;
+                : from weapon in data.BoughtWeapon select weapon;
 
         public string GetPlayerSelectedWeaponName() =>
-            _playerWeapon.SelectedWeapon;
+            data.SelectedWeapon;
 
         private WeaponDatabase()
+            : base(WeaponFile)
         {
-            _serializer = new JsonSerializer();
-
-            if (!Directory.Exists(_fullSavesPath))
-                Directory.CreateDirectory(_fullSavesPath);
-
-            ReadData();
-        }
-
-        private void SaveData()
-        {
-            using StreamWriter writer = new StreamWriter(_fullSavesPath + WeaponFile);
-            _serializer.Serialize(writer, _playerWeapon);
-        }
-
-        private void ReadData()
-        {
-            using StreamReader reader = new StreamReader(_fullSavesPath + WeaponFile);
-            using JsonReader jsonReader = new JsonTextReader(reader);
-            _playerWeapon = _serializer.Deserialize<PlayerWeapon?>(jsonReader) ?? new PlayerWeapon();
         }
     }
 }
