@@ -1,10 +1,14 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public void Restart()
+    public static bool isGamePaused = false;
+    
+    [SerializeField] private float fixedDeltaTime = 0.02f;
+
+    private void Start()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = fixedDeltaTime;
     }
 }

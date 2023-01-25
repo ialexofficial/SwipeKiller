@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using ViewModels;
 
 namespace Components
 {
     public class Swiping : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        [SerializeField] private SwipableViewModel[] swipables;
+        public UnityEvent<PointerEventData, float> OnSwipe = new UnityEvent<PointerEventData, float>();
 
         private float _startTime = 0;
         
@@ -21,10 +21,7 @@ namespace Components
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            foreach (var swipable in swipables)
-            {
-                swipable.Swipe(eventData, Time.time - _startTime);
-            }
+            OnSwipe.Invoke(eventData, Time.time - _startTime);
         }
     }
 }

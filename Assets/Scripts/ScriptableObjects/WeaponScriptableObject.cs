@@ -2,11 +2,11 @@
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Weapon", order = 1)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Weapon")]
     public class WeaponScriptableObject : ScriptableObject
     {
-        public MeshFilter WeaponMeshFilter;
-        public Material WeaponMaterial;
+        public MeshFilter MeshFilter;
+        public Material Material;
         public int Damage = 1;
     }   
 }

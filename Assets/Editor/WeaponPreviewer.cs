@@ -9,27 +9,30 @@ namespace Editor
     [CustomEditor(typeof(Weapon))]
     public class WeaponPreviewer : EditorBase
     {
-        private WeaponScriptableObject _previewingWeapon;
         private MeshFilter _weaponMeshFilter;
         private MeshRenderer _weaponMeshRenderer;
-        
-        private void OnSceneGUI()
+        private MeshCollider _collider;
+
+        public override void OnInspectorGUI()
         {
-            if (Application.isPlaying)
-                return;
+            DrawDefaultInspector();
             
+            if (GUILayout.Button("Visualize weapon"))
+                Visualize();
+        }
+
+        private void Visualize()
+        {
             Weapon weapon = target as Weapon;
 
-            if (_previewingWeapon != null && _previewingWeapon == weapon.PreviewingWeapon)
-                return;
-
-            _previewingWeapon = weapon.PreviewingWeapon;
+            WeaponScriptableObject previewingWeapon = weapon.PreviewingWeapon;
             
             _weaponMeshFilter ??= weapon.GetComponent<MeshFilter>();
             _weaponMeshRenderer ??= weapon.GetComponent<MeshRenderer>();
+            _collider ??= weapon.GetComponent<MeshCollider>();
 
-            _weaponMeshFilter.mesh = _previewingWeapon.WeaponMeshFilter.sharedMesh;
-            _weaponMeshRenderer.material = _previewingWeapon.WeaponMaterial;
+            _collider.sharedMesh = _weaponMeshFilter.mesh = previewingWeapon.MeshFilter.sharedMesh;
+            _weaponMeshRenderer.material = previewingWeapon.Material;
         }
     }
 }

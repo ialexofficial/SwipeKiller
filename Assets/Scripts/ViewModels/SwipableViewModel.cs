@@ -1,5 +1,6 @@
 ﻿using Models;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace ViewModels
@@ -7,6 +8,7 @@ namespace ViewModels
     [RequireComponent(typeof(Rigidbody))]
     public class SwipableViewModel : MonoBehaviour
     {
+        public UnityEvent OnForceAdd = new UnityEvent();
         [SerializeField] private float swipeStrength = 5f;
         [SerializeField] private float maxVelocity = 5f;
         [SerializeField] private float minTimeInteraction = 0.001f;
@@ -36,7 +38,7 @@ namespace ViewModels
 
         public void Swipe(PointerEventData eventData, float swipeTime)
         {
-            Debug.Log($"Swipe time: {swipeTime}");
+            // Debug.Log($"Swipe time: {swipeTime}");
             _model.Swipe(eventData, swipeTime);
         }
 
@@ -44,12 +46,12 @@ namespace ViewModels
         {
             _model = new SwipableModel(this);
 
-            _model.OnSwipe += Swiped;
+            _model.OnSwipe += OnSwiped;
         }
 
         private void OnDestroy()
         {
-            _model.OnSwipe -= Swiped;
+            _model.OnSwipe -= OnSwiped;
         }
 
         private void Start()
@@ -57,9 +59,10 @@ namespace ViewModels
             _rigidbody = GetComponent<Rigidbody>();
         }
 
-        private void Swiped(Vector2 delta)
+        private void OnSwiped(Vector2 delta)
         {
             _rigidbody.AddForce(delta, ForceMode.VelocityChange);
+            OnForceAdd.Invoke();
         }
     }
 }

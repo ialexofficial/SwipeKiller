@@ -3,15 +3,15 @@ using ViewModels;
 
 namespace Models
 {
-    public class DamagableModel
+    public class EnemyModel
     {
-        private DamagableViewModel _viewModel;
+        private EnemyViewModel _viewModel;
         private int _takenDamage = 0;
 
         public event Action<int> OnDamage;
         public event Action OnDie;
         
-        public DamagableModel(DamagableViewModel viewModel)
+        public EnemyModel(EnemyViewModel viewModel)
         {
             _viewModel = viewModel;
         }

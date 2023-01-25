@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ScriptableObjects;
+﻿using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Utilities;
 using ViewModels;
 
@@ -10,7 +7,7 @@ namespace Components
 {
     [RequireComponent(
     typeof(Rigidbody),
-    typeof(Collider),
+    typeof(MeshCollider),
     typeof(MeshFilter)
     )]
     [RequireComponent(
@@ -30,14 +27,16 @@ namespace Components
 
         private MeshFilter _meshFilter;
         private MeshRenderer _meshRenderer;
+        private MeshCollider _meshCollider;
 
         public void UpdateData(WeaponScriptableObject data)
         {
             _meshFilter ??= GetComponent<MeshFilter>();
             _meshRenderer ??= GetComponent<MeshRenderer>();
+            _meshCollider ??= GetComponent<MeshCollider>();
             
-            _meshFilter.mesh = data.WeaponMeshFilter.sharedMesh;
-            _meshRenderer.material = data.WeaponMaterial;
+            _meshCollider.sharedMesh = _meshFilter.mesh = data.MeshFilter.sharedMesh;
+            _meshRenderer.material = data.Material;
             damage = data.Damage;
         }
 
@@ -47,7 +46,7 @@ namespace Components
             
             if (LayerMasker.CheckLayer(damagableLayers, gameObject.layer))
             {
-                gameObject.GetComponent<DamagableViewModel>().Damage(damage);
+                gameObject.GetComponent<EnemyViewModel>().Damage(damage);
             }
         }
     }

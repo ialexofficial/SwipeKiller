@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GUI
 {
-    public class SettingsManager : MonoBehaviour
+    public class SettingsGUI : MonoBehaviour
     {
         [SerializeField] private GameObject canvas;
         [SerializeField] private GameObject settingMenu;

@@ -1,10 +1,11 @@
-﻿using Database;
+﻿using Components;
+using Database;
 using Database.Interfaces;
 using Database.ScriptableObjects;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Components
+namespace Managers
 {
     public class WeaponManager : MonoBehaviour
     {
