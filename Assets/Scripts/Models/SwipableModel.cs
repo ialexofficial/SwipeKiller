@@ -24,7 +24,8 @@ namespace Models
             if (swipeTime > _viewModel.MaxTimeInteraction)
                 swipeTime = _viewModel.MaxTimeInteraction;
 
-            Vector2 delta = (pointerEventData.position - pointerEventData.pressPosition).normalized * _viewModel.SwipeStrength / swipeTime;
+            Vector2 swipe = pointerEventData.position - pointerEventData.pressPosition;
+            Vector2 delta = swipe.normalized * swipe.magnitude * _viewModel.SwipeStrength / swipeTime;
             Vector2 resultVelocity = (Vector2) _viewModel.Velocity + delta;
 
             if (Mathf.Abs(resultVelocity.x) > _viewModel.MaxVelocity)

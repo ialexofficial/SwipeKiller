@@ -12167,8 +12167,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GUI.SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 2769509872970581954}
+        m_TargetAssemblyTypeName: GUI.SettingsGUI, Assembly-CSharp
         m_MethodName: ToggleVolume
         m_Mode: 1
         m_Arguments:
@@ -12505,8 +12505,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GUI.SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 2769509872970581954}
+        m_TargetAssemblyTypeName: GUI.SettingsGUI, Assembly-CSharp
         m_MethodName: CloseSettings
         m_Mode: 1
         m_Arguments:
@@ -13337,7 +13337,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1324432181637588103}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2769509872970581958}
+        m_TargetAssemblyTypeName: Managers.LevelManager, Assembly-CSharp
+        m_MethodName: LoadNextLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1324432181637588101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13923,8 +13935,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GUI.SettingsManager, Assembly-CSharp
+      - m_Target: {fileID: 2769509872970581954}
+        m_TargetAssemblyTypeName: GUI.SettingsGUI, Assembly-CSharp
         m_MethodName: ToggleVibration
         m_Mode: 1
         m_Arguments:
@@ -15118,8 +15130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542b5191778b416dbf0e1076d69c2cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipables:
-  - {fileID: 2666720441252677694}
+  OnSwipe:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!23 &2666720441252677688
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15217,6 +15230,7 @@ GameObject:
   - component: {fileID: 2666720441252677700}
   - component: {fileID: 1101292865159832663}
   - component: {fileID: 1628004433}
+  - component: {fileID: 2666720441252677696}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -15236,6 +15250,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2211e341ef3a45b197f1f530acffd83f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnForceAdd:
+    m_PersistentCalls:
+      m_Calls: []
   swipeStrength: 1
   maxVelocity: 17
   minTimeInteraction: 0.06
@@ -15254,6 +15271,20 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: -1.9710986e-18, y: 0.40788507, z: -0.0157637}
+--- !u!64 &2666720441252677696
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2666720441252677693}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8675325050276630016, guid: 378945692f0034a40b8f871220608e2f, type: 3}
 --- !u!114 &2666720441252677700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15329,6 +15360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c523e37e05f9454c9d81606e0fc0c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fixedDeltaTime: 0.02
 --- !u!1 &2769509872970581957
 GameObject:
   m_ObjectHideFlags: 0
@@ -15341,6 +15373,7 @@ GameObject:
   - component: {fileID: 2769509872970581952}
   - component: {fileID: 2769509872970581955}
   - component: {fileID: 2769509872970581954}
+  - component: {fileID: 2769509872970581958}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -15348,6 +15381,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2769509872970581958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2769509872970581957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff7b31e40f14cc6b6bf28d18348a568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEnemyCountChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyOver:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSwipeCountChange:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSwipeOver:
+    m_PersistentCalls:
+      m_Calls: []
+  swipeCount: -1
+  nextLevelSceneName: Level1
+  mainMenuSceneName: 
 --- !u!1 &2952763576136235209
 GameObject:
   m_ObjectHideFlags: 0

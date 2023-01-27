@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace Components
 {
@@ -7,14 +8,19 @@ namespace Components
     /// Made for tutorial https://youtu.be/0cmxFjP375Y
     /// </summary>
     [ExecuteAlways]
+    [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CameraConstantFit : MonoBehaviour
     {
         [SerializeField] private Vector2 defaultResolution = new Vector2(720, 1280);
         [Range(0f, 1f)] 
         [SerializeField] private float widthOrHeight = 0;
         [SerializeField] private float initialFov = 60;
+        #if UNITY_EDITOR
+        [SerializeField] private bool disable = false;
+        [SerializeField] private bool init = false;
+        #endif
 
-        private Camera _componentCamera;
+        private CinemachineVirtualCamera _componentCamera;
     
         private float _initialSize;
         private float _targetAspect;
@@ -23,8 +29,13 @@ namespace Components
 
         private void Start()
         {
-            _componentCamera = GetComponent<Camera>();
-            _initialSize = _componentCamera.orthographicSize;
+            Init();
+        }
+
+        private void Init()
+        {
+            _componentCamera = GetComponent<CinemachineVirtualCamera>();
+            _initialSize = _componentCamera.m_Lens.OrthographicSize;
 
             _targetAspect = defaultResolution.x / defaultResolution.y;
 
@@ -33,15 +44,25 @@ namespace Components
 
         private void Update()
         {
-            if (_componentCamera.orthographic)
+            #if UNITY_EDITOR
+            if (init)
+                Init();
+            
+            if (disable)
+                return;
+            #endif
+            
+            if (_componentCamera.m_Lens.Orthographic)
             {
-                float constantWidthSize = _initialSize * (_targetAspect / _componentCamera.aspect);
-                _componentCamera.orthographicSize = Mathf.Lerp(constantWidthSize, _initialSize, widthOrHeight);
+                float currentAspect = Screen.orientation == ScreenOrientation.Portrait
+                    ? (float) Screen.height / Screen.width
+                    : (float) Screen.width / Screen.height;
+                _componentCamera.m_Lens.OrthographicSize = _initialSize * currentAspect / _targetAspect;
             }
             else
             {
-                float constantWidthFov = CalcVerticalFov(_horizontalFov, _componentCamera.aspect);
-                _componentCamera.fieldOfView = Mathf.Lerp(constantWidthFov, initialFov, widthOrHeight);
+                float constantWidthFov = CalcVerticalFov(_horizontalFov, _componentCamera.m_Lens.Aspect);
+                _componentCamera.m_Lens.FieldOfView = Mathf.Lerp(constantWidthFov, initialFov, widthOrHeight);
             }
         }
 

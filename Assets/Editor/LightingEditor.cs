@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using EditorBase = UnityEditor.Editor;
+using BaseEditor = UnityEditor.Editor;
 
 namespace Editor
 {
-    public class Lighting : EditorBase
+    public class LightingEditor : BaseEditor
     {
         [MenuItem("Tools/Lighting/Disable DO")]
         public static void DisableDO() =>

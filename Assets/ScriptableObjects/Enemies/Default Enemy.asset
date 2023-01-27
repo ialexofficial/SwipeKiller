@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f617aad76954b8cbe1c54eb74125d26, type: 3}
   m_Name: Default Enemy
   m_EditorClassIdentifier: 
-  Mesh: {fileID: 0}
-  Material: {fileID: 0}
+  Prefab: {fileID: 6357147308368228009, guid: 5a34d3990de2247ea87fc9a35ce24697, type: 3}
   Health: 1

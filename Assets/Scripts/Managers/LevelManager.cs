@@ -14,8 +14,8 @@ namespace Managers
         
         [Tooltip("Enter -1 to make Infinity")]
         [SerializeField] private int swipeCount = -1;
-        [SerializeField] private Scene nextLevel;
-        [SerializeField] private Scene mainMenu;
+        [SerializeField] private string nextLevelSceneName;
+        [SerializeField] private string mainMenuSceneName;
 
         private float _savedTimeScale;
         private float _savedFixedDeltaTime;
@@ -28,12 +28,12 @@ namespace Managers
 
         public void LoadNextLevel()
         {
-            SceneManager.LoadScene(nextLevel.buildIndex);
+            SceneManager.LoadScene(nextLevelSceneName);
         }
 
         public void LoadMainMenu()
         {
-            SceneManager.LoadScene(mainMenu.buildIndex);
+            SceneManager.LoadScene(mainMenuSceneName);
         }
 
         public void Pause()
@@ -66,6 +66,16 @@ namespace Managers
             }
         }
         
+        public void OnEnemyDead()
+        {
+            OnEnemyCountChange.Invoke(--_enemyCount);
+
+            if (_enemyCount == 0)
+            {
+                OnEnemyOver.Invoke();
+            }
+        }
+        
         private void Start() 
         {
             _enemyCount = 0;
@@ -78,16 +88,6 @@ namespace Managers
             
             OnSwipeCountChange.Invoke(swipeCount);
             OnEnemyCountChange.Invoke(_enemyCount);
-        }
-
-        private void OnEnemyDead()
-        {
-            OnEnemyCountChange.Invoke(--_enemyCount);
-
-            if (_enemyCount == 0)
-            {
-                OnEnemyOver.Invoke();
-            }
         }
     }
 }

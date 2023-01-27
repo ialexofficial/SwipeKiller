@@ -12,7 +12,7 @@ namespace Components
         
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _startTime = Time.time;
+            _startTime = Time.unscaledTime;
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -21,7 +21,7 @@ namespace Components
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            OnSwipe.Invoke(eventData, Time.time - _startTime);
+            OnSwipe.Invoke(eventData, Time.unscaledTime - _startTime);
         }
     }
 }
