@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace GUI
@@ -13,8 +14,20 @@ namespace GUI
         [SerializeField] private GameObject infiniteImage;
         
         [Header("Menus")]
-        [SerializeField] private GameObject winnerMenu;
-        [SerializeField] private GameObject loserMenu;
+        [SerializeField] private Animator winnerMenuAnimator;
+        [SerializeField] private Animator loserMenuAnimator;
+        [SerializeField] private float animationDelay = 1f;
+
+        [Header("Particles")]
+        [Tooltip("Calculated by taking the entered percent of animationDelay")]
+        [Range(0, 100)]
+        [SerializeField]
+        private int winParticlesDelay = 20;
+        [SerializeField] private ParticleSystem[] winParticles;
+        
+#if UNITY_EDITOR
+        public ParticleSystem[] WinParticles => winParticles;
+#endif
 
         public void OnEnemyCountChanged(int count)
         {
@@ -38,12 +51,31 @@ namespace GUI
 
         public void ShowWinnerMenu()
         {
-            winnerMenu.SetActive(true);
+            winnerMenuAnimator.gameObject.SetActive(true);
+            StartCoroutine(AnimateMenuShowing(winnerMenuAnimator, winParticles, winParticlesDelay));
         }
 
         public void ShowLoserMenu()
         {
-            loserMenu.SetActive(true);
+            loserMenuAnimator.gameObject.SetActive(true);
+            StartCoroutine(AnimateMenuShowing(loserMenuAnimator, null, 0));
+        }
+
+        private IEnumerator AnimateMenuShowing(Animator animator, ParticleSystem[] particleSystems, int particlesDelay)
+        {
+            yield return new WaitForSecondsRealtime(animationDelay * particlesDelay / 100);
+
+            if (particleSystems != null)
+            {
+                foreach (ParticleSystem particle in particleSystems)
+                {
+                    particle.Play();
+                }
+            }
+
+            yield return new WaitForSecondsRealtime(animationDelay * (100 - particlesDelay) / 100);
+            
+            animator.SetTrigger("Show");
         }
     }
 }

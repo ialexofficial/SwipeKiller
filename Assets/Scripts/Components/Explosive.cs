@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using Utilities;
-using ViewModels;
 
 namespace Components
 {
@@ -9,14 +7,13 @@ namespace Components
         typeof(Collider),
         typeof(AudioSource)
     )]
-    public class Explosive : MonoBehaviour
+    public class Explosive : MonoBehaviour, ICombustible
     {
         [SerializeField] private float strength = 1f;
         [SerializeField] private float radius = 1f;
         [SerializeField] private int damage = 1;
-        [SerializeField] private LayerMask enemyLayer;
-        [SerializeField] private LayerMask destroyableLayer;
-        [SerializeField] private LayerMask weaponLayer;
+        [SerializeField] private float explosionSpeed = 5f;
+        [SerializeField] private LayerMask explodeInteractingLayers;
         [SerializeField] private GameObject model;
         [SerializeField] private ParticleSystem particles;
 
@@ -24,29 +21,33 @@ namespace Components
         private Collider _collider;
         private AudioSource _audio;
         private bool _isExploded = false;
+        private Collider[] _hitables = new Collider[64];
+
+        public bool BurnDown()
+        {
+            if (_isExploded)
+                return false;
+            
+            Explode();
+            return true;
+        }
         
         public void Explode()
         {
             _isExploded = true;
-            
-            Collider[] hitables = Physics.OverlapSphere(
+
+            Physics.OverlapSphereNonAlloc(
                 transform.position,
                 radius,
-                LayerMasker.MergeLayerMasks(enemyLayer, destroyableLayer, weaponLayer).value
+                _hitables,
+                explodeInteractingLayers.value
             );
 
-            foreach (Collider hitable in hitables)
+            foreach (Collider hitable in _hitables)
             {
                 Rigidbody rigidbody = hitable.attachedRigidbody;
-                
-                if (LayerMasker.CheckLayer(enemyLayer, hitable.gameObject.layer))
-                {
-                    hitable.GetComponent<EnemyViewModel>()?.Damage(damage);
-                }
-                else if(LayerMasker.CheckLayer(destroyableLayer, hitable.gameObject.layer))
-                {
-                    hitable.GetComponent<Destroyable>()?.BreakDown();
-                }
+
+                hitable.GetComponent<IDamagable>()?.Damage(damage, hitable);
 
                 if (rigidbody != null)
                 {
@@ -63,10 +64,15 @@ namespace Components
 
         private void OnCollisionEnter(Collision other)
         {
-            if (_isExploded || !LayerMasker.CheckLayer(weaponLayer, other.gameObject.layer))
+            if (_isExploded)
                 return;
-            
-            Explode();
+
+            float speed = _rigidbody.velocity.magnitude + (other.collider.attachedRigidbody?.velocity.magnitude ?? 0);
+
+            if (speed >= explosionSpeed)
+            {
+                Explode();
+            }
         }
 
         private void Start()

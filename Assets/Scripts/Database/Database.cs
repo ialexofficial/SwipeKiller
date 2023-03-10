@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Database
 {
-    public abstract class Database<T> where T: new()
+    public abstract class Database<T> where T: struct
     {
         protected const string SavesDir = "/Saves";
         
@@ -25,15 +25,17 @@ namespace Database
 
         protected void Serialize()
         {
-            using StreamWriter writer = new StreamWriter(fullSavesPath + dataFileName);
+            using FileStream file = new FileStream(fullSavesPath + dataFileName, FileMode.OpenOrCreate);
+            using StreamWriter writer = new StreamWriter(file);
             serializer.Serialize(writer, data);
         }
 
         protected void Deserialize()
         {
-            using StreamReader reader = new StreamReader(fullSavesPath + dataFileName);
+            using FileStream file = new FileStream(fullSavesPath + dataFileName, FileMode.OpenOrCreate);
+            using StreamReader reader = new StreamReader(file);
             using JsonReader jsonReader = new JsonTextReader(reader);
-            data = serializer.Deserialize<T>(jsonReader) ?? new T();
+            data = serializer.Deserialize<T?>(jsonReader) ?? new T();
         }
     }
 }

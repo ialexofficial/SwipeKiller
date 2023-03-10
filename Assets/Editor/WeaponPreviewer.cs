@@ -1,17 +1,15 @@
 ﻿using Components;
-using ScriptableObjects;
+using Managers;
 using UnityEditor;
 using UnityEngine;
 using BaseEditor = UnityEditor.Editor;
 
 namespace Editor
 {
-    [CustomEditor(typeof(Weapon))]
+    [CustomEditor(typeof(WeaponManager))]
     public class WeaponPreviewer : BaseEditor
     {
-        private MeshFilter _meshFilter;
-        private MeshRenderer _meshRenderer;
-        private MeshCollider _collider;
+        private Weapon _previewed;
 
         public override void OnInspectorGUI()
         {
@@ -21,24 +19,25 @@ namespace Editor
                 Visualize();
         }
 
+        private void OnDisable()
+        {
+            if (_previewed is null)
+                return;
+            
+            DestroyImmediate(_previewed.gameObject);
+        }
+
         private void Visualize()
         {
-            Weapon weapon = target as Weapon;
-
-            WeaponScriptableObject previewingWeapon = weapon.PreviewingWeapon;
-
-            _meshFilter ??= weapon.GetComponent<MeshFilter>();
-            _meshRenderer ??= weapon.GetComponent<MeshRenderer>();
-            _collider ??= weapon.GetComponent<MeshCollider>();
-
-            Undo.SetCurrentGroupName("Weapon visualizing");
-            Undo.RecordObject(_meshFilter, "Edited MeshFilter");
-            Undo.RecordObject(_meshRenderer, "Edited Material");
-            Undo.RecordObject(_collider, "Edited Collider");
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+            if (_previewed != null)
+            {
+                DestroyImmediate(_previewed.gameObject);
+            }
             
-            _collider.sharedMesh = _meshFilter.mesh = previewingWeapon.MeshFilter.sharedMesh;
-            _meshRenderer.material = previewingWeapon.Material;
+            WeaponManager manager = target as WeaponManager;
+
+            _previewed = Instantiate(manager.PreviewingWeapon, manager.WeaponStartPosition,
+                manager.WeaponStartRotation);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Managers
         public UnityEvent<int> OnEnemyCountChange = new UnityEvent<int>();
         public UnityEvent OnEnemyOver = new UnityEvent();
         public UnityEvent<int> OnSwipeCountChange = new UnityEvent<int>();
-        public UnityEvent OnSwipeOver = new UnityEvent();
+        public UnityEvent OnLose = new UnityEvent();
         
         [Tooltip("Enter -1 to make Infinity")]
         [SerializeField] private int swipeCount = -1;
@@ -20,6 +20,7 @@ namespace Managers
         private float _savedTimeScale;
         private float _savedFixedDeltaTime;
         private int _enemyCount;
+        private bool _isWin;
 
         public void Restart()
         {
@@ -61,8 +62,7 @@ namespace Managers
 
             if (swipeCount == 0)
             {
-                Pause();
-                OnSwipeOver.Invoke();
+                OnLose.Invoke();
             }
         }
         
@@ -72,8 +72,17 @@ namespace Managers
 
             if (_enemyCount == 0)
             {
+                _isWin = true;
                 OnEnemyOver.Invoke();
             }
+        }
+
+        public void OnWeaponDestroyed()
+        {
+            if (_isWin)
+                return;
+            
+            OnLose.Invoke();
         }
         
         private void Start() 
@@ -82,7 +91,7 @@ namespace Managers
             
             foreach (EnemyViewModel enemy in FindObjectsOfType<EnemyViewModel>())
             {
-                _enemyCount++;
+                ++_enemyCount;
                 enemy.OnDie.AddListener(OnEnemyDead);
             }
             

@@ -6,5 +6,6 @@ namespace Database.Structures
     public struct PlayerProgress
     {
         public int CurrentLevel;
+        public int Coins;
     }
 }

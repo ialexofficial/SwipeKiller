@@ -2,23 +2,33 @@
 using Database;
 using Database.Interfaces;
 using Database.ScriptableObjects;
-using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Managers
 {
     public class WeaponManager : MonoBehaviour
     {
-        [SerializeField] private WeaponScriptableObject defaultWeapon;
+        public UnityEvent OnWeaponDestroy = new UnityEvent();
+        
+        #if UNITY_EDITOR
+        public Weapon PreviewingWeapon;
+        public Vector3 WeaponStartPosition => weaponStartPosition;
+        public Quaternion WeaponStartRotation => Quaternion.Euler(weaponStartRotation);
+        #endif
+        
+        [SerializeField] private Weapon defaultWeapon;
         [SerializeField] private WeaponDatabaseInfo weaponDatabase;
-        [SerializeField] private Weapon weapon;
+        [SerializeField] private Vector3 weaponStartPosition;
+        [SerializeField] private Vector3 weaponStartRotation;
 
-        private WeaponScriptableObject _selectedWeapon;
+        private Weapon _selectedWeapon;
+        private Weapon _weapon;
 
         private void Start()
         {
             SetSelectedWeapon();
-            weapon.UpdateData(_selectedWeapon);
+            UpdateWeaponOnScene();
         }
 
         private void SetSelectedWeapon()
@@ -37,6 +47,21 @@ namespace Managers
             {
                 _selectedWeapon = weaponDatabase.GetWeapon(selectedWeaponName);
             }
+        }
+
+        private void UpdateWeaponOnScene()
+        {
+            if (_weapon != null)
+            {
+                weaponStartPosition = _weapon.transform.position;
+                weaponStartRotation = _weapon.transform.eulerAngles;
+                Destroy(_weapon.gameObject);
+            }
+            
+            Quaternion weaponRotation = Quaternion.Euler(weaponStartRotation);
+
+            _weapon = Instantiate(_selectedWeapon, weaponStartPosition, weaponRotation);
+            _weapon.OnWeaponDestroy.AddListener(() => OnWeaponDestroy.Invoke());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Models;
+﻿using Components;
+using Models;
+using Models.Enums;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,26 +11,30 @@ namespace ViewModels
     [RequireComponent(
         typeof(Collider)
     )]
-    public class EnemyViewModel : MonoBehaviour
+    public class EnemyViewModel : MonoBehaviour, IDamagable, ICombustible
     {
         public UnityEvent OnDie = new UnityEvent();
         
         [SerializeField] private float vibrationTime = 0.2f;
-        [SerializeField] private EnemyScriptableObject enemyData;
+        [SerializeField] private ParticleSystem headshotEffect;
+        [SerializeField] private Collider headCollider;
+        [SerializeField] private int health;
 
         private EnemyModel _model;
-        private int _health;
         private Collider _collider;
         private Rigidbody[] _ragdollRigidbodies;
 
-        public int Health => _health;
-    #if UNITY_EDITOR
-        public EnemyScriptableObject EnemyData => enemyData;
-    #endif
+        public int Health => health;
+        public Collider HeadCollider => headCollider;
 
-        public void Damage(int damage)
+        public void Damage(int damage, Collider part)
         {
-            _model.Damage(damage);
+            _model.Damage(damage, part);
+        }
+
+        public bool BurnDown()
+        {
+            return _model.Damage(Health, null);
         }
 
         private void Awake()
@@ -41,17 +47,6 @@ namespace ViewModels
         
         private void Start()
         {
-            foreach (Transform childTransform in GetComponentsInChildren<Transform>())
-            {
-                if (childTransform == null || childTransform.gameObject == gameObject)
-                    continue;
-                
-                Destroy(childTransform.gameObject);
-            }
-            
-            Instantiate(enemyData.Prefab, transform);
-            _health = enemyData.Health;
-
             _ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
             _collider = GetComponent<Collider>();
         }
@@ -62,9 +57,14 @@ namespace ViewModels
             _model.OnDie -= OnDead;
         }
 
-        private void OnDamaged(int takenDamage)
+        private void OnDamaged(int takenDamage, EnemyDamagedPart part)
         {
             Vibration.Vibrate((long) (vibrationTime * 1000));
+
+            if (part == EnemyDamagedPart.Head)
+            {
+                headshotEffect.Play();
+            }
         }
 
         private void OnDead()

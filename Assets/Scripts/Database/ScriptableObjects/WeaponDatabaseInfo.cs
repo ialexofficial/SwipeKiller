@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ScriptableObjects;
+using Components;
 using UnityEngine;
 
 namespace Database.ScriptableObjects
@@ -10,11 +10,11 @@ namespace Database.ScriptableObjects
             "Renaming WeaponScriptableObject files will lead to bugs in player's local saves!\n" +
             "All names must be unique!"
         )]
-        [SerializeField] private List<WeaponScriptableObject> weapons;
+        [SerializeField] private List<Weapon> weapons;
 
-        private Dictionary<string, WeaponScriptableObject> _weaponDictionary;
+        private Dictionary<string, Weapon> _weaponDictionary;
 
-        public WeaponScriptableObject GetWeapon(string weaponName)
+        public Weapon GetWeapon(string weaponName)
         {
             if (_weaponDictionary is null)
                 Init();
@@ -24,9 +24,9 @@ namespace Database.ScriptableObjects
         
         private void Init()
         {
-            _weaponDictionary = new Dictionary<string, WeaponScriptableObject>();
+            _weaponDictionary = new Dictionary<string, Weapon>();
             
-            foreach (WeaponScriptableObject weapon in weapons)
+            foreach (Weapon weapon in weapons)
             {
                 _weaponDictionary[weapon.name] = weapon;
             }

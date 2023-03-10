@@ -12,19 +12,18 @@ namespace Components
     public class CameraConstantFit : MonoBehaviour
     {
         [SerializeField] private Vector2 defaultResolution = new Vector2(720, 1280);
-        [Range(0f, 1f)] 
-        [SerializeField] private float widthOrHeight = 0;
+        [Range(0f, 1f)] [SerializeField] private float widthOrHeight = 0;
         [SerializeField] private float initialFov = 60;
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         [SerializeField] private bool disable = false;
         [SerializeField] private bool init = false;
-        #endif
+#endif
 
         private CinemachineVirtualCamera _componentCamera;
-    
+
         private float _initialSize;
         private float _targetAspect;
-        
+
         private float _horizontalFov = 120f;
 
         private void Start()
@@ -44,14 +43,15 @@ namespace Components
 
         private void Update()
         {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (init)
                 Init();
-            
+
             if (disable)
-                return;
-            #endif
-            
+                if (!Application.isPlaying)
+                        return;
+#endif
+
             if (_componentCamera.m_Lens.Orthographic)
             {
                 float currentAspect = Screen.orientation == ScreenOrientation.Portrait

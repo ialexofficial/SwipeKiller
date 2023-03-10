@@ -21,6 +21,15 @@ namespace Database
             Serialize();
         }
 
+        public int GetCoins() => data.Coins;
+
+        public void SetCoins(int coins)
+        {
+            data.Coins = coins;
+            
+            Serialize();
+        }
+
         private ProgressDatabase()
             : base(ProgressFile)
         {}
