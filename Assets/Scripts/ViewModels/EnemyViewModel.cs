@@ -21,7 +21,7 @@ namespace ViewModels
         [SerializeField] private int health;
 
         private EnemyModel _model;
-        private Collider _collider;
+        private Collider[] _colliders;
         private Rigidbody[] _ragdollRigidbodies;
 
         public int Health => health;
@@ -48,7 +48,7 @@ namespace ViewModels
         private void Start()
         {
             _ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
-            _collider = GetComponent<Collider>();
+            _colliders = GetComponents<Collider>();
         }
 
         private void OnDestroy()
@@ -69,7 +69,11 @@ namespace ViewModels
 
         private void OnDead()
         {
-            _collider.enabled = false;
+            foreach (Collider collider in _colliders)
+            {
+                collider.enabled = false;
+            }
+            
             EnableRagdoll();
             OnDie.Invoke();
         }

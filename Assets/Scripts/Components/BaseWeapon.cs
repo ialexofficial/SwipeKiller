@@ -17,6 +17,7 @@ namespace Components
         [SerializeField] protected Vector3 centerOfMass;
         [SerializeField] protected LayerMask damagableLayers;
         [SerializeField] protected ParticleSystem speedEffect;
+        [SerializeField] protected ParticleSystem destroyEffect;
         [SerializeField] protected float speedEffectVelocity = 1f;
 
         protected SwipableViewModel _swipableViewModel;
@@ -28,6 +29,8 @@ namespace Components
                 return false;
             
             gameObject.SetActive(false);
+            destroyEffect.transform.parent = null;
+            destroyEffect.Play();
             OnWeaponDestroy.Invoke();
             return true;
         }

@@ -73,4 +73,6 @@ crashlytics-build.properties
 
 *.meta
 /.idea
-Assets/Asset\ Packages/
+/Assets/Asset Packages/**/Demo
+/Assets/Asset Packages/**/Scenes
+/Assets/Asset Packages/**/DemoScenes
