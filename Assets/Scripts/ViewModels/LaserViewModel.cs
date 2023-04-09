@@ -38,6 +38,11 @@ namespace ViewModels
             _model.OnSwitch += OnSwitched;
         }
 
+        private void Start()
+        {
+            Switch(isEnabled);
+        }
+
         private void Update()
         {
             _model.TickOnTime(Time.deltaTime);

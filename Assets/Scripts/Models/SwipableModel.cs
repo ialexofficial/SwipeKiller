@@ -25,17 +25,16 @@ namespace Models
                 swipeTime = _viewModel.MaxTimeInteraction;
 
             Vector2 swipe = pointerEventData.position - pointerEventData.pressPosition;
+            Vector2 direction = ((Vector2)
+                    (pointerEventData.pointerCurrentRaycast.worldPosition - _viewModel.transform.position)
+                ).normalized;
 
-            float swipeMagnitude = swipe.magnitude;
-            
-            swipe.Normalize();
-            swipe = new Vector2(
-                (int) (swipe.x / _viewModel.SwipeDeadZone),
-                (int) (swipe.y / _viewModel.SwipeDeadZone)
-            );
+            direction.x = (float) Math.Round(direction.x, 1);
+            direction.y = (float) Math.Round(direction.y, 1);
 
-            Vector2 delta = swipe * swipeMagnitude * _viewModel.SwipeDeadZone * _viewModel.SwipeStrength / swipeTime;
-            Vector2 resultVelocity = (Vector2) _viewModel.Velocity + delta;
+            Vector2 delta = direction * swipe.magnitude * _viewModel.SwipeDeadZone *
+                _viewModel.SwipeStrength / swipeTime;
+            Vector2 resultVelocity = delta;
 
             if (Mathf.Abs(resultVelocity.x) > _viewModel.MaxVelocity)
             {

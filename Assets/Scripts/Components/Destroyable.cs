@@ -2,7 +2,6 @@
 
 namespace Components
 {
-    [RequireComponent(typeof(Collider))]
     public class Destroyable : MonoBehaviour, IDamagable, ICombustible
     {
         [SerializeField] private ParticleSystem destroyingEffect;
@@ -33,7 +32,7 @@ namespace Components
         
         private void Start()
         {
-            _collider = GetComponent<Collider>();
+            _collider = GetComponentInChildren<Collider>();
             _partRigidbodies = GetComponentsInChildren<Rigidbody>();
         }
     }

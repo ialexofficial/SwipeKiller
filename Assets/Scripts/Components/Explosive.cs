@@ -4,7 +4,6 @@ namespace Components
 {
     [RequireComponent(
         typeof(Rigidbody),
-        typeof(Collider),
         typeof(AudioSource)
     )]
     public class Explosive : MonoBehaviour, ICombustible

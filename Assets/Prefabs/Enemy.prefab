@@ -1721,9 +1721,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   vibrationTime: 0.2
-  enemyData: {fileID: 11400000, guid: cfd80ebdad9aa0043a9639cf4af09903, type: 2}
   headshotEffect: {fileID: 1744518300651495251}
   headCollider: {fileID: 3630610716854681941}
+  health: 0
 --- !u!135 &3630610716854681941
 SphereCollider:
   m_ObjectHideFlags: 0

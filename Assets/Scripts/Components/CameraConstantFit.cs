@@ -22,6 +22,7 @@ namespace Components
         private CinemachineVirtualCamera _componentCamera;
 
         private float _initialSize;
+        private float _initialFov;
         private float _targetAspect;
 
         private float _horizontalFov = 120f;
@@ -35,6 +36,7 @@ namespace Components
         {
             _componentCamera = GetComponent<CinemachineVirtualCamera>();
             _initialSize = _componentCamera.m_Lens.OrthographicSize;
+            _initialFov = _componentCamera.m_Lens.FieldOfView;
 
             _targetAspect = defaultResolution.x / defaultResolution.y;
 
@@ -52,17 +54,17 @@ namespace Components
                         return;
 #endif
 
+            float currentAspect = Screen.orientation == ScreenOrientation.Portrait
+                ? (float) Screen.height / Screen.width
+                : (float) Screen.width / Screen.height;
+            
             if (_componentCamera.m_Lens.Orthographic)
             {
-                float currentAspect = Screen.orientation == ScreenOrientation.Portrait
-                    ? (float) Screen.height / Screen.width
-                    : (float) Screen.width / Screen.height;
                 _componentCamera.m_Lens.OrthographicSize = _initialSize * currentAspect / _targetAspect;
             }
             else
             {
-                float constantWidthFov = CalcVerticalFov(_horizontalFov, _componentCamera.m_Lens.Aspect);
-                _componentCamera.m_Lens.FieldOfView = Mathf.Lerp(constantWidthFov, initialFov, widthOrHeight);
+                _componentCamera.m_Lens.FieldOfView = _initialFov * currentAspect / _targetAspect;
             }
         }
 

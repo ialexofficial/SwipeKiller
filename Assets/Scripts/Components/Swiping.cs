@@ -9,6 +9,7 @@ namespace Components
         public UnityEvent<PointerEventData, float> OnSwipe = new UnityEvent<PointerEventData, float>();
 
         private float _startTime = 0;
+        private Camera _camera;
         
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -22,6 +23,16 @@ namespace Components
         public void OnEndDrag(PointerEventData eventData)
         {
             OnSwipe.Invoke(eventData, Time.unscaledTime - _startTime);
+        }
+
+        private void Start()
+        {
+            _camera = Camera.main;
+        }
+
+        private void Update()
+        {
+            transform.LookAt(_camera.transform);
         }
     }
 }
