@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Components
 {
@@ -30,20 +31,23 @@ namespace Components
             Explode();
             return true;
         }
-        
+
         public void Explode()
         {
             _isExploded = true;
 
-            Physics.OverlapSphereNonAlloc(
+            int length = Physics.OverlapSphereNonAlloc(
                 transform.position,
                 radius,
                 _hitables,
                 explodeInteractingLayers.value
             );
 
-            foreach (Collider hitable in _hitables)
+            foreach (Collider hitable in _hitables.Take(length))
             {
+                if (hitable.gameObject == gameObject)
+                    continue;
+                
                 Rigidbody rigidbody = hitable.attachedRigidbody;
 
                 hitable.GetComponent<IDamagable>()?.Damage(damage, hitable);

@@ -37,25 +37,6 @@ namespace Managers
             SceneManager.LoadScene(mainMenuSceneName);
         }
 
-        public void Pause()
-        {
-            GameManager.isGamePaused = true;
-
-            _savedTimeScale = Time.timeScale;
-            _savedFixedDeltaTime = Time.fixedDeltaTime;
-        
-            Time.timeScale = 0;
-            Time.fixedDeltaTime = 0;
-        }
-
-        public void Confirm()
-        {
-            Time.timeScale = _savedTimeScale;
-            Time.fixedDeltaTime = _savedFixedDeltaTime;
-
-            GameManager.isGamePaused = false;
-        }
-
         public void OnSwiped()
         {
             OnSwipeCountChange.Invoke(--swipeCount);

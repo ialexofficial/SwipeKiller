@@ -13,6 +13,7 @@ namespace Components
     {
         [SerializeField] private Vector2 defaultResolution = new Vector2(720, 1280);
         [Range(0f, 1f)] [SerializeField] private float widthOrHeight = 0;
+        [Header("Initial size for orthographic")]
         [SerializeField] private float initialFov = 60;
 #if UNITY_EDITOR
         [SerializeField] private bool disable = false;
@@ -21,11 +22,7 @@ namespace Components
 
         private CinemachineVirtualCamera _componentCamera;
 
-        private float _initialSize;
-        private float _initialFov;
         private float _targetAspect;
-
-        private float _horizontalFov = 120f;
 
         private void Start()
         {
@@ -35,12 +32,8 @@ namespace Components
         private void Init()
         {
             _componentCamera = GetComponent<CinemachineVirtualCamera>();
-            _initialSize = _componentCamera.m_Lens.OrthographicSize;
-            _initialFov = _componentCamera.m_Lens.FieldOfView;
 
             _targetAspect = defaultResolution.x / defaultResolution.y;
-
-            _horizontalFov = CalcVerticalFov(initialFov, 1 / _targetAspect);
         }
 
         private void Update()
@@ -60,11 +53,11 @@ namespace Components
             
             if (_componentCamera.m_Lens.Orthographic)
             {
-                _componentCamera.m_Lens.OrthographicSize = _initialSize * currentAspect / _targetAspect;
+                _componentCamera.m_Lens.OrthographicSize = initialFov * currentAspect / _targetAspect;
             }
             else
             {
-                _componentCamera.m_Lens.FieldOfView = _initialFov * currentAspect / _targetAspect;
+                _componentCamera.m_Lens.FieldOfView = initialFov * currentAspect / _targetAspect;
             }
         }
 

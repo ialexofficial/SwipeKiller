@@ -20,10 +20,10 @@ namespace Models
             _viewModel = viewModel;
         }
 
-        public bool Damage(int damage, [CanBeNull] Collider part)
+        public void Damage(int damage, [CanBeNull] Collider part)
         {
             if (_isDead)
-                return false;
+                return;
             
             _takenDamage += damage;
 
@@ -39,8 +39,6 @@ namespace Models
                 _isDead = true;
                 OnDie?.Invoke();
             }
-
-            return true;
         }
     }
 }

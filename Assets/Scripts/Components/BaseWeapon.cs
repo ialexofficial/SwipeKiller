@@ -29,8 +29,8 @@ namespace Components
                 return false;
             
             gameObject.SetActive(false);
-            destroyEffect.transform.parent = null;
-            destroyEffect.Play();
+            // destroyEffect.transform.parent = null;
+            // destroyEffect.Play();
             OnWeaponDestroy.Invoke();
             return true;
         }

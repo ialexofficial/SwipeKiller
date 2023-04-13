@@ -8,6 +8,8 @@ namespace Models
     public class SwipableModel
     {
         private SwipableViewModel _viewModel;
+        private Vector2 _lastSwipeDelta;
+        private bool _isDeltaAplied = true;
 
         public event Action<Vector2> OnSwipe;
 
@@ -16,6 +18,17 @@ namespace Models
             _viewModel = viewModel;
         }
 
+        public void FixedUpdate()
+        {
+            if (!_isDeltaAplied)
+            {
+                Vector2 delta = _lastSwipeDelta;
+                _lastSwipeDelta = Vector2.zero;
+                _isDeltaAplied = true;
+                OnSwipe?.Invoke(delta);
+            }
+        }
+        
         public void Swipe(PointerEventData pointerEventData, float swipeTime)
         {
             if (swipeTime < _viewModel.MinTimeInteraction)
@@ -29,24 +42,15 @@ namespace Models
                     (pointerEventData.pointerCurrentRaycast.worldPosition - _viewModel.transform.position)
                 ).normalized;
 
-            direction.x = (float) Math.Round(direction.x, 1);
-            direction.y = (float) Math.Round(direction.y, 1);
-
-            Vector2 delta = direction * swipe.magnitude * _viewModel.SwipeDeadZone *
+            _lastSwipeDelta = direction * swipe.magnitude * _viewModel.SwipeDeadZone *
                 _viewModel.SwipeStrength / swipeTime;
-            Vector2 resultVelocity = delta;
 
-            if (Mathf.Abs(resultVelocity.x) > _viewModel.MaxVelocity)
+            if (_lastSwipeDelta.magnitude > _viewModel.MaxVelocity)
             {
-                delta.x -= Mathf.Sign(delta.x) * (Mathf.Abs(resultVelocity.x) - _viewModel.MaxVelocity);
-            }
-            
-            if (Mathf.Abs(resultVelocity.y) > _viewModel.MaxVelocity)
-            {
-                delta.y -= Mathf.Sign(delta.y) * (Mathf.Abs(resultVelocity.y) - _viewModel.MaxVelocity);
+                _lastSwipeDelta *= _viewModel.MaxVelocity / _lastSwipeDelta.magnitude;
             }
 
-            OnSwipe?.Invoke(delta);
+            _isDeltaAplied = false;
         }
     }
 }

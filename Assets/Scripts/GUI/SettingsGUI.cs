@@ -26,6 +26,7 @@ namespace GUI
         public void OpenSettings()
         {
             settingMenu.SetActive(true);
+            GameManager.Pause();
             _isSettingsOpened = true;
         }
 
@@ -33,6 +34,7 @@ namespace GUI
         {
             _isSettingsOpened = false;
             settingMenu.SetActive(false);
+            GameManager.Confirm();
         }
 
         public void ToggleVolume()

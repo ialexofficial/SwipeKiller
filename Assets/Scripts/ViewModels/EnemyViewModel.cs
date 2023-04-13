@@ -34,7 +34,10 @@ namespace ViewModels
 
         public bool BurnDown()
         {
-            return _model.Damage(Health, null);
+            _model.Damage(Health, null);
+            gameObject.SetActive(false);
+            
+            return true;
         }
 
         private void Awake()

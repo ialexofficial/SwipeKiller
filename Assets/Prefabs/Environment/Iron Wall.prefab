@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4245395097807754179}
   - component: {fileID: 4381209728549306123}
   - component: {fileID: 1288689228791861276}
-  - component: {fileID: 3861035939403732462}
+  - component: {fileID: 8898916903650108525}
   m_Layer: 0
   m_Name: Iron Wall
   m_TagString: Untagged
@@ -52,7 +52,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4989737be724cfd4c9b748b1f80bbf5e, type: 2}
+  - {fileID: 2100000, guid: f1e1c42dbe7c0194ab48d009e406bc8d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,8 +81,8 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5060096449721604853}
-  m_Mesh: {fileID: 5963486694197159949, guid: 795ad15bda6b6e443b0ec76e90cda00a, type: 3}
---- !u!65 &3861035939403732462
+  m_Mesh: {fileID: 5963486694197159949, guid: 847e47643bb301f4a93524a4568d2db3, type: 3}
+--- !u!65 &8898916903650108525
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
