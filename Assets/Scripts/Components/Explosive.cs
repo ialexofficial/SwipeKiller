@@ -70,7 +70,9 @@ namespace Components
             if (_isExploded)
                 return;
 
-            float speed = _rigidbody.velocity.magnitude + (other.collider.attachedRigidbody?.velocity.magnitude ?? 0);
+            float speed = (_rigidbody.velocity +
+                           (other.collider.attachedRigidbody?.velocity ?? Vector3.zero)
+                ).magnitude;
 
             if (speed >= explosionSpeed)
             {

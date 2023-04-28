@@ -14,7 +14,7 @@ namespace Components
         [SerializeField] private LayerMask weaponLayer;
         
         [Header("Animation of collecting")]
-        [SerializeField] private RectTransform animationTarget;
+        [SerializeField] private Transform animationTarget;
         [SerializeField] private float animationTime;
         [SerializeField] private AnimationCurve animationCurve;
 
@@ -38,15 +38,19 @@ namespace Components
         private IEnumerator AnimateCollection()
         {
             Vector3 startPosition = transform.position;
+            Vector3 targetPosition = _camera.ScreenToWorldPoint(new Vector3(
+                animationTarget.position.x,
+                animationTarget.position.y,
+                transform.position.z - _camera.transform.position.z
+            ));
             float passedTime = 0;
 
             while (passedTime < animationTime)
             {
-                Vector2 targetPosition = _camera.ScreenToWorldPoint(animationTarget.transform.position);
                 passedTime += Time.unscaledDeltaTime;
 
                 transform.position =
-                    startPosition + (Vector3) (animationCurve.Evaluate(passedTime) * (targetPosition - (Vector2) startPosition));
+                    startPosition + (Vector3) (animationCurve.Evaluate(passedTime) * (targetPosition - startPosition));
 
                 yield return null;
             }

@@ -13,13 +13,13 @@ namespace ViewModels
         [SerializeField] private float maxVelocity = 5f;
         [SerializeField] private float minTimeInteraction = 0.001f;
         [SerializeField] private float maxTimeInteraction = 1f;
-        [Range(0.1f, 0, order = -1)]
-        [SerializeField] private float swipeDeadZone = 0.1f;
+        [SerializeField] [Range(0.1f, 0, order = -1)] private float swipeDeadZone = 0.1f;
         
         private SwipableModel _model;
         private Rigidbody _rigidbody;
         private float _startZPosition;
         private Vector3 _startRotation;
+        private Camera _camera;
 
         public float SwipeStrength
         {
@@ -42,7 +42,7 @@ namespace ViewModels
 
         public void Swipe(PointerEventData eventData, float swipeTime)
         {
-            _model.Swipe(eventData, swipeTime);
+            _model.Swipe(eventData, swipeTime, _camera);
         }
 
         private void Awake()
@@ -63,6 +63,7 @@ namespace ViewModels
 
             _startZPosition = transform.position.z;
             _startRotation = transform.eulerAngles;
+            _camera = Camera.main;
         }
 
         private void FixedUpdate()
@@ -81,6 +82,7 @@ namespace ViewModels
 
         private void OnSwiped(Vector2 delta)
         {
+            _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddForce(delta, ForceMode.VelocityChange);
             OnForceAdd.Invoke(delta);
         }

@@ -20,11 +20,13 @@ namespace Models
         public SlowMotionModel(SlowMotionViewModel viewModel)
         {
             _viewModel = viewModel;
-            _defaultFixedDeltaTime = Time.fixedDeltaTime;
+            // _defaultFixedDeltaTime = Time.fixedDeltaTime;
+            _defaultFixedDeltaTime = 0.02f;
         }
 
         public void OnForceAdded()
         {
+            _previousSpeed = 0f;
             _isSlowMotionPassed = _isSlowMotionStarted = false;
         }
 

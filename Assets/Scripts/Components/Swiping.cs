@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GUI;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
@@ -10,10 +11,12 @@ namespace Components
 
         private float _startTime = 0;
         private Camera _camera;
+        private LevelGUI _levelGUI;
         
         public void OnBeginDrag(PointerEventData eventData)
         {
             _startTime = Time.unscaledTime;
+            _levelGUI.Started();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -28,6 +31,7 @@ namespace Components
         private void Start()
         {
             _camera = Camera.main;
+            _levelGUI = FindObjectOfType<LevelGUI>();
         }
 
         private void Update()

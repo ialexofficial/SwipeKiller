@@ -64,8 +64,8 @@ namespace ViewModels
         {
             while (true)
             {
-                if (GameManager.isGamePaused)
-                    yield return new WaitUntil(() => !GameManager.isGamePaused);
+                if (GameManager.IsGamePaused)
+                    yield return new WaitUntil(() => !GameManager.IsGamePaused);
 
                 _model.ScaleTime();
                 yield return null;

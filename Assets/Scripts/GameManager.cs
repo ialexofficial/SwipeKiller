@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static bool isGamePaused = false;
+    public static bool IsGamePaused = false;
     
     [SerializeField] private float fixedDeltaTime = 0.02f;
 
@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
     
     public static void Pause()
     {
-        if (isGamePaused)
+        if (IsGamePaused)
             return;
         
-        isGamePaused = true;
+        IsGamePaused = true;
 
         _savedTimeScale = Time.timeScale;
         _savedFixedDeltaTime = Time.fixedDeltaTime;
@@ -25,18 +25,19 @@ public class GameManager : MonoBehaviour
 
     public static void Confirm()
     {
-        if (!isGamePaused)
+        if (!IsGamePaused)
             return;
         
         Time.timeScale = _savedTimeScale;
         Time.fixedDeltaTime = _savedFixedDeltaTime;
 
-        isGamePaused = false;
+        IsGamePaused = false;
     }
 
     private void Start()
     {
         Time.timeScale = 1;
         Time.fixedDeltaTime = fixedDeltaTime;
+        Application.targetFrameRate = 200;
     }
 }

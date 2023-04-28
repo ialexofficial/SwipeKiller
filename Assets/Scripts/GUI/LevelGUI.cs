@@ -17,6 +17,7 @@ namespace GUI
         [SerializeField] private Animator winnerMenuAnimator;
         [SerializeField] private Animator loserMenuAnimator;
         [SerializeField] private float animationDelay = 1f;
+        [SerializeField] private Animator mainMenuAnimator;
 
         [Header("Particles")]
         [Tooltip("Calculated by taking the entered percent of animationDelay")]
@@ -29,9 +30,14 @@ namespace GUI
         public ParticleSystem[] WinParticles => winParticles;
 #endif
 
+        public void Started()
+        {
+            mainMenuAnimator.SetTrigger("Hide");
+        }
+        
         public void OnEnemyCountChanged(int count)
         {
-            enemyCountText.text = count.ToString();
+            enemyCountText.text = $"x{count}";
         }
 
         public void OnSwipeCountChanged(int count)

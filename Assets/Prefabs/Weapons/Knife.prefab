@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c75695421a946e42bb9fdf5296c3cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 0.1
-  startSpeed: 2
+  scaleFactor: 0.2
+  startSpeed: 10
   slowingTime: 2
   slowingTimeline:
     serializedVersion: 2

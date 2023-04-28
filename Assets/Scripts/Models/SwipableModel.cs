@@ -29,18 +29,18 @@ namespace Models
             }
         }
         
-        public void Swipe(PointerEventData pointerEventData, float swipeTime)
+        public void Swipe(PointerEventData pointerEventData, float swipeTime, Camera camera)
         {
             if (swipeTime < _viewModel.MinTimeInteraction)
                 swipeTime = _viewModel.MinTimeInteraction;
 
             if (swipeTime > _viewModel.MaxTimeInteraction)
                 swipeTime = _viewModel.MaxTimeInteraction;
-
+            
             Vector2 swipe = pointerEventData.position - pointerEventData.pressPosition;
-            Vector2 direction = ((Vector2)
-                    (pointerEventData.pointerCurrentRaycast.worldPosition - _viewModel.transform.position)
-                ).normalized;
+            Vector2 direction = (
+                pointerEventData.position - (Vector2) camera.WorldToScreenPoint(_viewModel.transform.position)
+            ).normalized;
 
             _lastSwipeDelta = direction * swipe.magnitude * _viewModel.SwipeDeadZone *
                 _viewModel.SwipeStrength / swipeTime;
