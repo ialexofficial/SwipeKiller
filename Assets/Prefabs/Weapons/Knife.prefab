@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2666720440229891565}
   - component: {fileID: 2666720440229891564}
-  - component: {fileID: 1060583186009207096}
-  - component: {fileID: 2909995055934484932}
-  - component: {fileID: 8471254331819668212}
+  - component: {fileID: 8175820648935170573}
   - component: {fileID: 3659446581958197577}
   - component: {fileID: 5852937566285717363}
   m_Layer: 8
@@ -33,7 +31,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.131, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2666720441749981918}
   - {fileID: 5254608665697834546}
   - {fileID: 4906270440282778874}
   - {fileID: 695071973620533568}
@@ -56,39 +53,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 56
   m_CollisionDetection: 1
---- !u!114 &1060583186009207096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666720440229891562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 450acd073a812a34ab453bcbf50ae66e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnForceAdd:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8471254331819668212}
-        m_TargetAssemblyTypeName: ViewModels.SlowMotionViewModel, Assembly-CSharp
-        m_MethodName: OnForceAdded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  swipeStrength: 5
-  maxVelocity: 15
-  minTimeInteraction: 0.001
-  maxTimeInteraction: 1
-  swipeDeadZone: 0.1
---- !u!114 &2909995055934484932
+--- !u!114 &8175820648935170573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,78 +65,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250e6e39cd5b4754283a0a6a25b21964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnWeaponDestroy:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8471254331819668212}
-        m_TargetAssemblyTypeName: ViewModels.SlowMotionViewModel, Assembly-CSharp
-        m_MethodName: OnForceAdded
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   damage: 1
   bladeCollider: {fileID: 3659446581958197577}
-  centerOfMass: {x: 0, y: 0.25, z: 0}
+  centerOfMass: {x: 0, y: 1.09, z: 0}
   damagableLayers:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 704
   speedEffect: {fileID: 5254608665716189164}
   destroyEffect: {fileID: 4906270440267471496}
   speedEffectVelocity: 1
---- !u!114 &8471254331819668212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666720440229891562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c75695421a946e42bb9fdf5296c3cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleFactor: 0.2
-  startSpeed: 10
-  slowingTime: 2
-  slowingTimeline:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.42372778
-      value: 0.85390943
-      inSlope: 0.80605316
-      outSlope: 0.80605316
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!65 &3659446581958197577
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -183,8 +85,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.28500497, y: 1.1377028, z: 0.10493231}
-  m_Center: {x: 0, y: 0.9881132, z: 0}
+  m_Size: {x: 0.28500497, y: 1.0576597, z: 0.10493231}
+  m_Center: {x: 0, y: 1.0281348, z: 0}
 --- !u!65 &5852937566285717363
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -198,78 +100,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.47037414, y: 0.4933443, z: 0.15259862}
   m_Center: {x: 0, y: 0.23922431, z: 0}
---- !u!1 &2666720441749981919
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2666720441749981918}
-  - component: {fileID: 9029813509349437589}
-  - component: {fileID: 1188728636333204927}
-  m_Layer: 10
-  m_Name: Swipe Area
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2666720441749981918
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666720441749981919}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2666720440229891565}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9029813509349437589
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666720441749981919}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2.5, z: 10}
-  m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &1188728636333204927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2666720441749981919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 809858b0c35bdef4488eeccd67ea44e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnSwipe:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1060583186009207096}
-        m_TargetAssemblyTypeName: ViewModels.SwipableViewModel, Assembly-CSharp
-        m_MethodName: Swipe
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &1022278883732762283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -279,7 +109,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 85256fc98a8ecd74f9e67ef0c5a09a11, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 85256fc98a8ecd74f9e67ef0c5a09a11, type: 3}
       propertyPath: m_LocalPosition.x
@@ -345,7 +175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7379634981160600973, guid: 1f2b5f2465a2e9a488d0e9d047d2113a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7379634981160600973, guid: 1f2b5f2465a2e9a488d0e9d047d2113a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -412,7 +242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 432938, guid: cc6959b00ffeb7946b117f5ee9132338, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 432938, guid: cc6959b00ffeb7946b117f5ee9132338, type: 3}
       propertyPath: m_LocalPosition.x

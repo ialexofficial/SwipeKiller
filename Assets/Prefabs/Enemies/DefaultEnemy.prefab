@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4333342771948285147}
   - component: {fileID: 6805197597469797092}
-  - component: {fileID: 7074918506449959731}
+  - component: {fileID: 8071908810179699083}
   m_Layer: 6
   m_Name: DefaultEnemy
   m_TagString: Untagged
@@ -48,7 +48,7 @@ CapsuleCollider:
   m_Height: 2.3646545
   m_Direction: 1
   m_Center: {x: 0, y: 1.2, z: 0}
---- !u!114 &7074918506449959731
+--- !u!114 &8071908810179699083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,12 +57,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5886409934134121694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80de6952ec0dab243876736209071e29, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f3a0e47310a4e18a5a07f87ec0e0df8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDie:
-    m_PersistentCalls:
-      m_Calls: []
   vibrationTime: 0.2
   headshotEffect: {fileID: 5983905939957235197}
   headCollider: {fileID: 19385177193305097}
@@ -660,8 +657,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13944286
-  m_Center: {x: 0, y: 0.13944286, z: 0}
+  m_Radius: 0.39729506
+  m_Center: {x: 2.3905053e-10, y: 0.3529434, z: 0.044352487}
 --- !u!144 &3046267221764679992
 CharacterJoint:
   m_ObjectHideFlags: 0
