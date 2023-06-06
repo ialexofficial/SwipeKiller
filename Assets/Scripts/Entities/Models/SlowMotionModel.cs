@@ -49,7 +49,6 @@ namespace Entities.Models
         {
             if (_passedTime > _settings.Duration)
             {
-                Debug.Log("End");
                 _slowMotionState = SlowMotionState.Passed;
                 _timeScaler.ScaleTime(1f);
                 return;

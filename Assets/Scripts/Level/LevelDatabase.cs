@@ -7,8 +7,8 @@ namespace Managers
     [CreateAssetMenu(menuName = "Game Data/Level Database")]
     public class LevelDatabase : ScriptableObject
     {
-        public LevelData FirstLevel;
+        public LevelConfig FirstLevel;
         [Tooltip("Levels are saving by order in array. Changing level order can crash player saves!")]
-        public List<LevelData> Data;
+        public List<LevelConfig> Data;
     }
 }

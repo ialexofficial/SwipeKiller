@@ -16,7 +16,7 @@ namespace Utilities
         private ISaveDataContainer _saveDataContainer;
         private int _currentLevelKey;
 
-        public LevelData CurrentLevel => levelDatabase.Data[_currentLevelKey];
+        public LevelConfig CurrentLevel => levelDatabase.Data[_currentLevelKey];
         
         public void Bootstrap()
         {

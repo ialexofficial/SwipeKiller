@@ -3,7 +3,7 @@
 namespace Level
 {
     [CreateAssetMenu(menuName = "Game Data/Level Data")]
-    public class LevelData : ScriptableObject
+    public class LevelConfig : ScriptableObject
     {
         public string LevelSceneName;
         [Tooltip("0 is equivalent to infinity")]

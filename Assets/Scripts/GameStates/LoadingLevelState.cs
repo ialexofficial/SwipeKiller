@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Level;
 using Cysharp.Threading.Tasks;
 using Entities.Models;
 using Entities.ViewModels;
+using Entities.Views;
+using GUI.Views;
+using Ji2.CommonCore;
 using Ji2.CommonCore.SaveDataContainer;
 using Ji2Core.Core;
 using Ji2Core.Core.ScreenNavigation;
 using Ji2Core.Core.States;
+using Level;
 using Level.Models;
-using GUI.Views;
-using Ji2.CommonCore;
-using UnityEngine;
-using Entities.Views;
 using Level.Views;
+using UnityEngine;
 using Utilities;
 
 namespace GameStates
@@ -52,10 +52,10 @@ namespace GameStates
             _levelDataProvider.Bootstrap();
             _weaponDataProvider.Bootstrap();
 
-            LevelData levelData = _levelDataProvider.CurrentLevel;
-            await _sceneLoader.LoadScene(levelData.LevelSceneName);
+            LevelConfig levelConfig = _levelDataProvider.CurrentLevel;
+            await _sceneLoader.LoadScene(levelConfig.LevelSceneName);
             
-            GameStatePayload payload = BuildLevel(levelData);
+            GameStatePayload payload = BuildLevel(levelConfig);
 
             _stateMachine.Enter<GameState, GameStatePayload>(payload);
         }
@@ -66,7 +66,7 @@ namespace GameStates
             await _screenNavigator.CloseScreen<LoadingScreen>();
         }
 
-        private GameStatePayload BuildLevel(LevelData levelData)
+        private GameStatePayload BuildLevel(LevelConfig levelConfig)
         {
             List<Enemy> enemies = Object.FindObjectsOfType<Enemy>()
                 .ToList();
@@ -82,17 +82,17 @@ namespace GameStates
             }
 
             _cameraProvider.SetCameraValues(
-                levelData.FieldOfView,
-                levelData.CameraPosition
+                levelConfig.FieldOfView,
+                levelConfig.CameraPosition
             );
 
             LevelModel levelModel = new LevelModel(
                 _context.GetService<TimeScaler>(), 
-                levelData.SwipeCount,
+                levelConfig.SwipeCount,
                 enemies,
                 _levelDataProvider
             );
-            WeaponDataModel weaponDataModel = new WeaponDataModel(_weaponDataProvider, levelData.WeaponSpawnPoint);
+            WeaponDataModel weaponDataModel = new WeaponDataModel(_weaponDataProvider, levelConfig.WeaponSpawnPoint);
             MoneyDataModel moneyDataModel = new MoneyDataModel(_context.GetService<ISaveDataContainer>(), coins);
 
             SwipableModel swipableModel = new SwipableModel(weaponDataModel.SwipeSettings, _updateService);
@@ -114,7 +114,7 @@ namespace GameStates
                 moneyDataModel,
                 levelModel,
                 level,
-                levelData.SwipeCount,
+                levelConfig.SwipeCount,
                 enemies,
                 coins
             );

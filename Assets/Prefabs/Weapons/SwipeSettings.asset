@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwipeSettings
   m_EditorClassIdentifier: 
   Strength: 5
-  MaxVelocity: 5
+  MaxVelocity: 15
   MinTimeInteraction: 0.001
   MaxTimeInteraction: 1
   DeadZone: 0.1

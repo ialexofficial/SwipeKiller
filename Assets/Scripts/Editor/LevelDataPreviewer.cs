@@ -2,12 +2,11 @@
 using Level;
 using UnityEditor;
 using UnityEngine;
-using Entities.Views;
 using Utilities;
 
 namespace Editor
 {
-    [CustomEditor(typeof(LevelData))]
+    [CustomEditor(typeof(LevelConfig))]
     public class LevelDataPreviewer : UnityEditor.Editor
     {
         [SerializeField] private Vector2Int defaultResolution = new Vector2Int(1920, 1080);
@@ -18,13 +17,13 @@ namespace Editor
         private CinemachineFramingTransposer _vcamTransposer;
         private Camera _camera;
         private GameObject _weapon;
-        private LevelData _levelData;
+        private LevelConfig _levelConfig;
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
             
-            if (_levelData is null)
+            if (_levelConfig is null)
                 return;
 
             if (GUILayout.Button("Preview"))
@@ -33,9 +32,9 @@ namespace Editor
             if (_vcam is null)
                 return;
 
-            _weapon.transform.position = _levelData.WeaponSpawnPoint;
-            _vcam.m_Lens.FieldOfView = _levelData.FieldOfView;
-            _vcamTransposer.m_TrackedObjectOffset = _levelData.CameraPosition - _levelData.WeaponSpawnPoint;
+            _weapon.transform.position = _levelConfig.WeaponSpawnPoint;
+            _vcam.m_Lens.FieldOfView = _levelConfig.FieldOfView;
+            _vcamTransposer.m_TrackedObjectOffset = _levelConfig.CameraPosition - _levelConfig.WeaponSpawnPoint;
         }
 
         private void Preview()
@@ -70,12 +69,12 @@ namespace Editor
 
         private void OnEnable()
         {
-            _levelData = target as LevelData;
+            _levelConfig = target as LevelConfig;
         }
 
         private void OnDisable()
         {
-            _levelData = null;
+            _levelConfig = null;
             DestroyImmediate(_weapon.gameObject);
             DestroyImmediate(_vcam.gameObject);
             DestroyImmediate(_camera.gameObject);
