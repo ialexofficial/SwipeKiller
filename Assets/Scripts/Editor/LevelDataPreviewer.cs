@@ -34,7 +34,7 @@ namespace Editor
 
             _weapon.transform.position = _levelConfig.WeaponSpawnPoint;
             _vcam.m_Lens.FieldOfView = _levelConfig.FieldOfView;
-            _vcamTransposer.m_TrackedObjectOffset = _levelConfig.CameraPosition - _levelConfig.WeaponSpawnPoint;
+            _vcam.ForceCameraPosition(_levelConfig.CameraPosition, _vcam.transform.rotation);
         }
 
         private void Preview()
@@ -60,7 +60,6 @@ namespace Editor
             );
 
             _weapon = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            _vcam.m_Follow = _weapon.transform;
             _vcamTransposer = _vcam.AddCinemachineComponent<CinemachineFramingTransposer>();
             _vcamTransposer.m_UnlimitedSoftZone = true;
             _vcamTransposer.m_DeadZoneWidth = 2f;

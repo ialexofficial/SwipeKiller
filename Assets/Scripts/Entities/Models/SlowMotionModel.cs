@@ -9,7 +9,6 @@ namespace Entities.Models
         private readonly SlowMotionSettings _settings;
         private readonly TimeScaler _timeScaler;
         private float _passedTime = 0;
-        private float _previousSpeed = 0;
         private SlowMotionState _slowMotionState = SlowMotionState.Passed;
 
         public SlowMotionModel(
@@ -29,20 +28,23 @@ namespace Entities.Models
             if (_slowMotionState is SlowMotionState.Started)
                 ScaleTime();
 
-            float deltaSpeed = _previousSpeed - currentSpeed;
-            _previousSpeed = currentSpeed;
-
             if (
-                _slowMotionState is SlowMotionState.Passed ||
-                deltaSpeed <= 0 ||
+                _slowMotionState is SlowMotionState.Passed or SlowMotionState.Started ||
                 currentSpeed > _settings.StartSpeed
             )
             {
                 return;
             }
 
-            _slowMotionState = SlowMotionState.Started;
-            _passedTime = 0;
+            if (_slowMotionState is SlowMotionState.Ready)
+            {
+                _slowMotionState = SlowMotionState.Started;
+                _passedTime = 0;
+            }
+            else
+            {
+                _slowMotionState = SlowMotionState.Ready;
+            }
         }
 
         private void ScaleTime()
@@ -66,7 +68,6 @@ namespace Entities.Models
 
         private void OnForceAdded(Vector2 delta)
         {
-            _previousSpeed = 0f;
             _slowMotionState = SlowMotionState.None;
             _timeScaler.ScaleTime(1f);
         }
@@ -75,6 +76,7 @@ namespace Entities.Models
     public enum SlowMotionState
     {
         None,
+        Ready,
         Started,
         Passed
     }

@@ -33,6 +33,8 @@ namespace Level.Models
             _enemies = enemies;
             _levelDataProvider = levelDataProvider;
 
+            _enemyCount = _enemies.Count;
+            
             foreach (var enemy in _enemies)
             {
                 enemy.OnDie += OnEnemyDead;
@@ -41,7 +43,8 @@ namespace Level.Models
 
         public void OnEnemyDead()
         {
-            OnEnemyCountChanged?.Invoke(--_enemyCount);
+            --_enemyCount;
+            OnEnemyCountChanged?.Invoke(_enemyCount);
             
             if (_enemyCount == 0)
             {

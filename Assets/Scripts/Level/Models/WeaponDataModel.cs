@@ -17,6 +17,7 @@ namespace Level.Models
         public BaseWeapon SelectedWeapon => _selectedWeapon.Prefab;
         public SwipeSettings SwipeSettings => _selectedWeapon.SwipeSettings;
         public SlowMotionSettings SlowMotionSettings => _selectedWeapon.SlowMotionSettings;
+        public Vector2 SwipeConfinerOffset => _selectedWeapon.SwipeConfinerOffset;
 
         public WeaponDataModel(
             WeaponDataProvider weaponDataProvider,

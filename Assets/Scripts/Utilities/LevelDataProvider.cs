@@ -38,6 +38,14 @@ namespace Utilities
             _saveDataContainer.SaveValue(Constants.LEVEL_SAVE_DATA_KEY, _currentLevelKey);
         }
 
+        public void SetLevel(string levelName)
+        {
+            _currentLevelKey = levelDatabase
+                .Data
+                .FindIndex(levelConfig => levelConfig.LevelSceneName == levelName);
+            _saveDataContainer.SaveValue(Constants.LEVEL_SAVE_DATA_KEY, _currentLevelKey);
+        }
+
         [MenuItem("Tools/Player Saves/Clear Level Data")]
         public static void ClearPrefsSaves()
         {

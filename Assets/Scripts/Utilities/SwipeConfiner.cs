@@ -12,10 +12,10 @@ namespace Utilities
 
         public Action<PointerEventData, float> OnSwipe;
 
-        public void SetConfiner(Transform parent)
+        public void SetConfiner(Transform parent, Vector2 offset)
         {
             transform.parent = parent;
-            transform.localPosition = Vector3.zero;
+            transform.localPosition = offset;
         }
 
         public void Clear()

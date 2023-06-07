@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e34a1804b6443d9d2579f237a5a608, type: 3}
   m_Name: SlowMotionSettings
   m_EditorClassIdentifier: 
-  StartSpeed: 5
+  StartSpeed: 7
   ScaleFactor: 0.1
   Duration: 1
   Timeline:
@@ -21,8 +21,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -30,8 +30,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0

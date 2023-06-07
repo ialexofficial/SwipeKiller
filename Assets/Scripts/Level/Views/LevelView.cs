@@ -58,7 +58,7 @@ namespace Level.Views
             
             _weapon.Construct(_weaponVM);
             
-            _swipeConfiner.SetConfiner(_weapon.transform);
+            _swipeConfiner.SetConfiner(_weapon.transform, _weaponDataModel.SwipeConfinerOffset);
             _swipeConfiner.OnSwipe += _weapon.Swipe;
         }
 

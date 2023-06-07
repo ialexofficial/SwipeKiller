@@ -16,3 +16,4 @@ MonoBehaviour:
   Prefab: {fileID: 8175820648935170573, guid: ee41183e1788a5a4ba9f614974e2e298, type: 3}
   SlowMotionSettings: {fileID: 11400000, guid: 1641bed7b8d3d5a40b212325a5d695ee, type: 2}
   SwipeSettings: {fileID: 11400000, guid: 9fc63e8d47d0ed24bbf7595865cbd24a, type: 2}
+  SwipeConfinerOffset: {x: 0, y: 1}
