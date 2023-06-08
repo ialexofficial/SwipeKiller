@@ -46,6 +46,7 @@ namespace Utilities
             _saveDataContainer.SaveValue(Constants.LEVEL_SAVE_DATA_KEY, _currentLevelKey);
         }
 
+#if UNITY_EDITOR
         [MenuItem("Tools/Player Saves/Clear Level Data")]
         public static void ClearPrefsSaves()
         {
@@ -53,5 +54,6 @@ namespace Utilities
             playerPrefsSaveDataContainer.Load();
             playerPrefsSaveDataContainer.ResetKey(Constants.LEVEL_SAVE_DATA_KEY);
         }
+#endif
     }
 }

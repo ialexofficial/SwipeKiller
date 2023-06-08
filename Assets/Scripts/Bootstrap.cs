@@ -38,6 +38,9 @@ namespace SwipeKiller
             InstallTimeScaler();
             InstallParticlesProvider();
             InstallStateMachine();
+            
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = -1;
 
             _gameStateMachine.Load();
             _gameStateMachine.Enter<InitialState>();

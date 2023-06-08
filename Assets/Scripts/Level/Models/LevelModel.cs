@@ -14,6 +14,7 @@ namespace Level.Models
         private int _enemyCount;
         private int _swipeCount;
         private bool _isPaused = false;
+        private bool _isLevelEnd = false;
 
         public event Action OnLevelLose;
         public event Action OnLevelWin;
@@ -45,9 +46,13 @@ namespace Level.Models
         {
             --_enemyCount;
             OnEnemyCountChanged?.Invoke(_enemyCount);
+
+            if (_isLevelEnd)
+                return;
             
             if (_enemyCount == 0)
             {
+                _isLevelEnd = true;
                 _levelDataProvider.IncreaseLevel();
                 OnLevelWin?.Invoke();
             }
@@ -55,6 +60,10 @@ namespace Level.Models
 
         public void OnPlayerDead()
         {
+            if (_isLevelEnd)
+                return;
+
+            _isLevelEnd = true;
             OnLevelLose?.Invoke();
         }
 
