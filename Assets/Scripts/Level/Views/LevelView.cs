@@ -53,7 +53,7 @@ namespace Level.Views
                 Quaternion.identity
             );
 
-            _weapon.OnWeaponDestroy += _weaponDataModel.OnWeaponDestroyed;
+            _weapon.OnWeaponDestroy += _levelModel.OnPlayerDead;
             _cameraProvider.SetCamera(_weapon.transform);
             
             _weapon.Construct(_weaponVM);

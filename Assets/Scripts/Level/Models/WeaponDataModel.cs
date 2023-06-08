@@ -30,10 +30,5 @@ namespace Level.Models
             _boughtWeapon = _weaponDataProvider.BoughtWeapon;
             _selectedWeapon = _weaponDataProvider.SelectedWeapon;
         }
-
-        public void OnWeaponDestroyed()
-        {
-            
-        }
     }
 }
