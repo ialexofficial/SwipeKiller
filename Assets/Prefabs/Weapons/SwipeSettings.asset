@@ -17,3 +17,4 @@ MonoBehaviour:
   MinTimeInteraction: 0.001
   MaxTimeInteraction: 1
   DeadZone: 0.1
+  SwipeLimiterPrefab: {fileID: 5729977375009419109, guid: a93a012c928d869418902f08014dfbff, type: 3}

@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Entities.Views;
 using Ji2Core.Core;
 using Ji2Core.Core.States;
 
@@ -17,6 +19,9 @@ namespace GameStates
         
         public async UniTask Enter()
         {
+            _context.Unregister<List<Enemy>>();
+            _context.Unregister<List<Coin>>();
+    
             _stateMachine.Enter<LoadingLevelState>();
         }
 

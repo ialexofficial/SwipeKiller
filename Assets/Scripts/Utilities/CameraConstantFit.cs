@@ -11,6 +11,7 @@ namespace Utilities
     [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CameraConstantFit : MonoBehaviour
     {
+        [SerializeField] private CinemachineVirtualCamera componentCamera;
         [SerializeField] private Vector2 defaultResolution = new Vector2(1920, 1080);
         [Range(0f, 1f)] [SerializeField] private float widthOrHeight = 0;
         [Header("Initial size for orthographic")]
@@ -20,9 +21,12 @@ namespace Utilities
         [SerializeField] private bool init = false;
 #endif
 
-        private CinemachineVirtualCamera _componentCamera;
-
         private float _targetAspect;
+
+        private void Start()
+        {
+            _targetAspect = defaultResolution.x / defaultResolution.y;
+        }
 
         public void ChangeValues(
             Vector2? defaultResolution = null,
@@ -39,26 +43,14 @@ namespace Utilities
             if (!(initialFov is null))
                 this.initialFov = (float) initialFov;
 
-            Init();
-        }
-
-        private void Start()
-        {
-            _componentCamera = GetComponent<CinemachineVirtualCamera>();
-            
-            Init();
-        }
-
-        private void Init()
-        {
-            _targetAspect = defaultResolution.x / defaultResolution.y;
+            Start();
         }
 
         private void Update()
         {
 #if UNITY_EDITOR
             if (init)
-                Init();
+                Start();
 
             if (disable)
                 if (!Application.isPlaying)
@@ -69,13 +61,13 @@ namespace Utilities
                 ? (float) Screen.height / Screen.width
                 : (float) Screen.width / Screen.height;
             
-            if (_componentCamera.m_Lens.Orthographic)
+            if (componentCamera.m_Lens.Orthographic)
             {
-                _componentCamera.m_Lens.OrthographicSize = initialFov * currentAspect / _targetAspect;
+                componentCamera.m_Lens.OrthographicSize = initialFov * currentAspect / _targetAspect;
             }
             else
             {
-                _componentCamera.m_Lens.FieldOfView = initialFov * currentAspect / _targetAspect;
+                componentCamera.m_Lens.FieldOfView = initialFov * currentAspect / _targetAspect;
             }
         }
 

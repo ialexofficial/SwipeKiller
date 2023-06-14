@@ -167,7 +167,7 @@ MonoBehaviour:
   explosionSpeed: 3
   explodeInteractingLayers:
     serializedVersion: 2
-    m_Bits: 3008
+    m_Bits: 960
   model: {fileID: 6766333424506642978}
   particles: {fileID: 3102483517914306510}
 --- !u!65 &8338338734403736180

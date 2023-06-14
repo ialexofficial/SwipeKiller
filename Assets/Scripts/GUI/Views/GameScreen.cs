@@ -49,8 +49,8 @@ namespace GUI.Views
             _viewModel.OnEnemyCountChange += OnEnemyCountChanged;
             _viewModel.OnSwipeCountChange += OnSwipeCountChanged;
             _viewModel.OnMoneyAmountChange += OnMoneyAmountChanged;
-            _viewModel.OnWin += () => ShowWinMenu().Forget();
-            _viewModel.OnLose += () => ShowLoseMenu().Forget();
+            _viewModel.OnWin += () => ShowWinMenu();
+            _viewModel.OnLose += () => ShowLoseMenu();
             _viewModel.OnToggleSettings += isActive => settingsMenu.SetActive(isActive);
             _viewModel.OnSoundToggle += OnSoundToggled;
             _viewModel.OnVibrationToggle += OnVibrationToggled;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utilities;
 
 namespace Entities
 {
@@ -10,5 +11,6 @@ namespace Entities
         public float MinTimeInteraction = 0.001f;
         public float MaxTimeInteraction = 1f;
         [Range(0.1f, 0, order = -1)] public float DeadZone = 0.1f;
+        public SwipeLimiter SwipeLimiterPrefab;
     }
 }

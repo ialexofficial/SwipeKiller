@@ -9,6 +9,7 @@ using Ji2Core.Core.ScreenNavigation;
 using Ji2Core.Core.States;
 using Level.Models;
 using Entities.Views;
+using Entities.Views.Weapon;
 using Level.Views;
 using Utilities;
 
@@ -20,11 +21,14 @@ namespace GameStates
         private readonly Context _context;
         private readonly ScreenNavigator _screenNavigator;
         private readonly TimeScaler _timeScaler;
-        private readonly SwipeConfiner _swipeConfiner;
         private readonly ParticlesProvider _particleProvider;
         private LevelModel _levelModel;
         private LevelView _levelView;
         private readonly ISaveDataContainer _saveDataContainer;
+        private GameStatePayload _payload;
+
+        public GameStatePayload GameStatePayload => _payload;
+        public bool IsReady { get; private set; }
 
         public GameState(StateMachine stateMachine, Context context)
         {
@@ -33,19 +37,20 @@ namespace GameStates
             
             _screenNavigator = _context.GetService<ScreenNavigator>();
             _timeScaler = _context.GetService<TimeScaler>();
-            _swipeConfiner = _context.GetService<SwipeConfiner>();
             _particleProvider = _context.GetService<ParticlesProvider>();
             _saveDataContainer = _context.GetService<ISaveDataContainer>();
         }
 
         public async UniTask Enter(GameStatePayload payload)
         {
-            _levelModel = payload.LevelModel;
-            _levelView = payload.LevelView;
+            _payload = payload;
+            
+            _levelModel = GameStatePayload.LevelModel;
+            _levelView = GameStatePayload.LevelView;
             
             GameScreenModel screenModel = new GameScreenModel(
-                payload.Enemies,
-                payload.SwipeCount,
+                GameStatePayload.Enemies,
+                GameStatePayload.SwipeCount,
                 _timeScaler,
                 _saveDataContainer
             );
@@ -53,25 +58,26 @@ namespace GameStates
             _levelModel.OnLevelWin += screenModel.Win;
             _levelModel.OnLevelLose += screenModel.Lose;
             
-            GameScreenVM screenVM = new GameScreenVM(screenModel, _levelModel, payload.MoneyDataModel);
+            GameScreenVM screenVM = new GameScreenVM(screenModel, _levelModel, GameStatePayload.MoneyDataModel);
             GameScreen gameScreen = await _screenNavigator.PushScreen<GameScreen>();
             gameScreen.Construct(screenVM, _particleProvider.ParticleSystem);
             
             screenVM.Bootstrap();
 
-            foreach (var coin in payload.Coins)
+            foreach (var coin in GameStatePayload.Coins)
             {
                 coin.Construct(gameScreen.CoinAnimationTarget);
                 coin.OnAnimationEnd += screenVM.EarnMoney;
             }
 
             _levelModel.OnLevelLoad += LoadNextLevel;
+
+            IsReady = true;
         }
 
         public async UniTask Exit()
         {
             _particleProvider.ParticleSystem.Clear();
-            _swipeConfiner.Clear();
             _levelView.Clear();
         }
 
@@ -85,6 +91,7 @@ namespace GameStates
 
     public class GameStatePayload
     {
+        public BaseWeapon Weapon { get; }
         public MoneyDataModel MoneyDataModel { get; }
         public LevelModel LevelModel { get; }
         public LevelView LevelView { get; }
@@ -93,6 +100,7 @@ namespace GameStates
         public List<Coin> Coins { get; }
 
         public GameStatePayload(
+            BaseWeapon weapon,
             MoneyDataModel moneyDataModel,
             LevelModel levelModel,
             LevelView levelView,
@@ -101,6 +109,7 @@ namespace GameStates
             List<Coin> coins
         )
         {
+            Weapon = weapon;
             MoneyDataModel = moneyDataModel;
             LevelModel = levelModel;
             LevelView = levelView;

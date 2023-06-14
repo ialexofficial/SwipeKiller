@@ -10,32 +10,32 @@ namespace Level.Views
 {
     public class LevelView : IBootstrapable
     {
+        private readonly Context _context;
         private readonly LevelModel _levelModel;
         private readonly MoneyDataModel _moneyDataModel;
         private readonly WeaponVM _weaponVM;
         private readonly SwipableModel _swipableModel;
         private readonly WeaponDataModel _weaponDataModel;
         private readonly VirtualCameraProvider _cameraProvider;
-        private readonly SwipeConfiner _swipeConfiner;
         private BaseWeapon _weapon;
 
         public LevelView(
+            Context context,
             LevelModel levelModel, 
             MoneyDataModel moneyDataModel,
             WeaponDataModel weaponDataModel,
             WeaponVM weaponVM,
             SwipableModel swipableModel,
-            VirtualCameraProvider cameraProvider,
-            SwipeConfiner swipeConfiner
+            VirtualCameraProvider cameraProvider
         )
         {
+            _context = context;
             _levelModel = levelModel;
             _moneyDataModel = moneyDataModel;
             _weaponDataModel = weaponDataModel;
             _weaponVM = weaponVM;
             _swipableModel = swipableModel;
             _cameraProvider = cameraProvider;
-            _swipeConfiner = swipeConfiner;
 
             _levelModel.OnLevelWin += OnLevelWon;
         }
@@ -47,7 +47,7 @@ namespace Level.Views
 
         private void BootstrapWeapon()
         {
-            _weapon = GameObject.Instantiate(
+            _weapon = Object.Instantiate(
                 _weaponDataModel.SelectedWeapon,
                 _weaponDataModel.WeaponSpawnPoint,
                 Quaternion.identity
@@ -55,11 +55,17 @@ namespace Level.Views
 
             _weapon.OnWeaponDestroy += _levelModel.OnPlayerDead;
             _cameraProvider.SetCamera(_weapon.transform);
+
+            var swipeLimiter = Object.Instantiate(
+                _weaponDataModel.SwipeSettings.SwipeLimiterPrefab,
+                _weapon.transform
+            );
+            swipeLimiter.SetLimiter(_weaponDataModel.SwipeLimiterOffset);
+            swipeLimiter.OnSwipe += _weapon.Swipe;
             
             _weapon.Construct(_weaponVM);
-            
-            _swipeConfiner.SetConfiner(_weapon.transform, _weaponDataModel.SwipeConfinerOffset);
-            _swipeConfiner.OnSwipe += _weapon.Swipe;
+
+            _context.Register(_weapon);
         }
 
         private void OnLevelWon()
@@ -70,6 +76,7 @@ namespace Level.Views
         public void Clear()
         {
             _swipableModel.Clear();
+            _context.Unregister<BaseWeapon>();
         }
     }
 }

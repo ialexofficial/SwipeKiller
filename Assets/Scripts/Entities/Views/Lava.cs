@@ -11,15 +11,15 @@ namespace Entities.Views
         [SerializeField] private ParticleSystem destroyEffect;
         [SerializeField] private LayerMask destroyableLayers;
 
-        private Stack<ParticleSystem> effectPull = new Stack<ParticleSystem>();
+        private Stack<ParticleSystem> effectsPull = new Stack<ParticleSystem>();
 
         private void Start()
         {
-            effectPull.Push(destroyEffect);
+            effectsPull.Push(destroyEffect);
 
             for (int i = 1; i < 64; ++i)
             {
-                effectPull.Push(Instantiate(destroyEffect, transform));
+                effectsPull.Push(Instantiate(destroyEffect, transform));
             }
         }
 
@@ -30,7 +30,7 @@ namespace Entities.Views
             
             if (other.GetComponentInParent<ICombustible>().BurnDown())
             {
-                ParticleSystem effect = effectPull.Pop();
+                ParticleSystem effect = effectsPull.Pop();
                 effect.transform.position = other.transform.position;
                 effect.Play();
                 StartCoroutine(ReturnEffectToPull(effect));
@@ -41,7 +41,7 @@ namespace Entities.Views
         {
             yield return new WaitForSeconds(effect.main.duration);
             
-            effectPull.Push(effect);
+            effectsPull.Push(effect);
         }
     }
 }

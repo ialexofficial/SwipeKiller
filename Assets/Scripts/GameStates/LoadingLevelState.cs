@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 using Entities.Models;
 using Entities.ViewModels;
 using Entities.Views;
+using Entities.Views.Weapon;
 using GUI.Views;
 using Ji2.CommonCore;
 using Ji2.CommonCore.SaveDataContainer;
@@ -13,7 +13,6 @@ using Ji2Core.Core.States;
 using Level;
 using Level.Models;
 using Level.Views;
-using UnityEngine;
 using Utilities;
 
 namespace GameStates
@@ -49,8 +48,8 @@ namespace GameStates
         {
             await _screenNavigator.PushScreen<LoadingScreen>();
             
-            _levelDataProvider.Bootstrap();
-            _weaponDataProvider.Bootstrap();
+            _context.Register(new List<Enemy>());
+            _context.Register(new List<Coin>());
 
             LevelConfig levelConfig = _levelDataProvider.CurrentLevel;
             await _sceneLoader.LoadScene(levelConfig.LevelSceneName);
@@ -68,10 +67,8 @@ namespace GameStates
 
         private GameStatePayload BuildLevel(LevelConfig levelConfig)
         {
-            List<Enemy> enemies = Object.FindObjectsOfType<Enemy>()
-                .ToList();
-            List<Coin> coins = Object.FindObjectsOfType<Coin>()
-                .ToList();
+            List<Enemy> enemies = _context.GetService<List<Enemy>>();
+            List<Coin> coins = _context.GetService<List<Coin>>();
 
             foreach (var enemy in enemies)
             {
@@ -100,17 +97,18 @@ namespace GameStates
             WeaponVM weaponVM = new WeaponVM(slowMotionModel, swipableModel);
 
             LevelView level = new LevelView(
+                _context,
                 levelModel,
                 moneyDataModel,
                 weaponDataModel,
                 weaponVM,
                 swipableModel,
-                _cameraProvider,
-                _context.GetService<SwipeConfiner>()
+                _cameraProvider
             );
             level.Bootstrap();
 
             return new GameStatePayload(
+                _context.GetService<BaseWeapon>(),
                 moneyDataModel,
                 levelModel,
                 level,

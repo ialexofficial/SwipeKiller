@@ -71,7 +71,7 @@ MonoBehaviour:
   centerOfMass: {x: 0, y: 1.09, z: 0}
   damagableLayers:
     serializedVersion: 2
-    m_Bits: 704
+    m_Bits: 2752
   speedEffect: {fileID: 5254608665716189164}
   destroyEffect: {fileID: 4906270440267471496}
   speedEffectVelocity: 1

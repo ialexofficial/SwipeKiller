@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using Ji2Core.Core;
 using UnityEngine;
 using Utilities;
 
@@ -7,7 +9,7 @@ namespace Entities.Views
 {
     public class Coin : MonoBehaviour
     {
-        [SerializeField] private int cost;
+        [SerializeField] private int reward;
         [SerializeField] private LayerMask weaponLayer;
         
         [Header("Animation of collecting")]
@@ -15,7 +17,6 @@ namespace Entities.Views
         [SerializeField] private Vector3 animationOffset = new Vector3(-1f, -1f, 0);
         [SerializeField] private AnimationCurve animationCurve;
 
-        private Camera _camera;
         private bool _isCollected = false;
         private Transform _animationTarget;
 
@@ -27,9 +28,12 @@ namespace Entities.Views
             _animationTarget = animationTarget;
         }
 
-        private void Start()
+        private void Awake()
         {
-            _camera = Camera.main;
+            Context
+                .GetInstance()
+                .GetService<List<Coin>>()
+                .Add(this);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -38,7 +42,7 @@ namespace Entities.Views
                 return;
 
             _isCollected = true;
-            OnCollect?.Invoke(cost);
+            OnCollect?.Invoke(reward);
 
             Vector3 targetPosition = Camera.main.ScreenToWorldPoint(_animationTarget.position);
             targetPosition.z = transform.position.z;

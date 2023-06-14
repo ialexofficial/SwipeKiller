@@ -5,26 +5,23 @@ using UnityEngine.EventSystems;
 namespace Utilities
 {
     [RequireComponent(typeof(Collider))]
-    public class SwipeConfiner : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class SwipeLimiter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private float _startTime = 0;
         private Camera _camera;
 
         public Action<PointerEventData, float> OnSwipe;
 
-        public void SetConfiner(Transform parent, Vector2 offset)
+        private void Start()
         {
-            transform.parent = parent;
+            _camera = Camera.main;
+        }
+
+        public void SetLimiter(Vector2 offset)
+        {
             transform.localPosition = offset;
         }
 
-        public void Clear()
-        {
-            transform.parent = null;
-            DontDestroyOnLoad(this);
-            OnSwipe = null;
-        }
-        
         public void OnBeginDrag(PointerEventData eventData)
         {
             _startTime = Time.unscaledTime;
@@ -39,17 +36,9 @@ namespace Utilities
             OnSwipe?.Invoke(eventData, Time.unscaledTime - _startTime);
         }
 
-        private void Start()
-        {
-            _camera = Camera.main;
-        }
-
         private void Update()
         {
-            if (!(_camera is null))
-            {
-                transform.LookAt(_camera.transform);
-            }
+            transform.LookAt(_camera.transform);
         }
     }
 }

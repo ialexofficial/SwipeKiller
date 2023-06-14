@@ -23,6 +23,7 @@ namespace Entities.Views.Weapon
         protected Rigidbody _rigidbody;
 
         public event Action OnWeaponDestroy;
+        public event Action OnForceAdd;
 
         public void Construct(WeaponVM viewModel)
         {
@@ -69,6 +70,8 @@ namespace Entities.Views.Weapon
             {
                 speedEffect.Play();
             }
+            
+            OnForceAdd?.Invoke();
         }
 
         protected void OnCollisionEnter(Collision collision)

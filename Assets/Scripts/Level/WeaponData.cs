@@ -11,6 +11,6 @@ namespace Level
         public BaseWeapon Prefab;
         public SlowMotionSettings SlowMotionSettings;
         public SwipeSettings SwipeSettings;
-        public Vector2 SwipeConfinerOffset;
+        public Vector2 SwipeLimiterOffset;
     }
 }

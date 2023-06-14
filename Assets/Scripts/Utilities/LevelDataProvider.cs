@@ -1,6 +1,5 @@
 ﻿using Level;
 using Ji2.CommonCore.SaveDataContainer;
-using Ji2Core.Core;
 using Managers;
 using SwipeKiller;
 using UnityEditor;
@@ -8,29 +7,35 @@ using UnityEngine;
 
 namespace Utilities
 {
-    public class LevelDataProvider : MonoBehaviour, IBootstrapable
+    public class LevelDataProvider
     {
-        [SerializeField] private LevelDatabase levelDatabase;
-
-        private readonly Context _context = Context.GetInstance();
-        private ISaveDataContainer _saveDataContainer;
+        private readonly ISaveDataContainer _saveDataContainer;
+        private readonly LevelDatabase _levelDatabase;
         private int _currentLevelKey;
 
-        public LevelConfig CurrentLevel => levelDatabase.Data[_currentLevelKey];
+        public LevelConfig CurrentLevel => _levelDatabase.Data[_currentLevelKey];
+        public bool IsFirstLevel => CurrentLevel == _levelDatabase.FirstLevel;
         
-        public void Bootstrap()
+        public LevelDataProvider(
+            ISaveDataContainer saveDataContainer,
+            LevelDatabase levelDatabase
+        )
         {
-            _saveDataContainer = _context.GetService<ISaveDataContainer>();
+            _saveDataContainer = saveDataContainer;
+            _levelDatabase = levelDatabase;
+        }
 
+        public void Load()
+        {
             _currentLevelKey = _saveDataContainer.GetValue(
                 Constants.LEVEL_SAVE_DATA_KEY,
-                levelDatabase.Data.IndexOf(levelDatabase.FirstLevel)
+                _levelDatabase.Data.IndexOf(_levelDatabase.FirstLevel)
             );
         }
 
         public void IncreaseLevel()
         {
-            if (_currentLevelKey == levelDatabase.Data.Count - 1)
+            if (_currentLevelKey == _levelDatabase.Data.Count - 1)
                 return;
             
             ++_currentLevelKey;
@@ -40,7 +45,7 @@ namespace Utilities
 
         public void SetLevel(string levelName)
         {
-            _currentLevelKey = levelDatabase
+            _currentLevelKey = _levelDatabase
                 .Data
                 .FindIndex(levelConfig => levelConfig.LevelSceneName == levelName);
             _saveDataContainer.SaveValue(Constants.LEVEL_SAVE_DATA_KEY, _currentLevelKey);
@@ -53,6 +58,7 @@ namespace Utilities
             PlayerPrefsSaveDataContainer playerPrefsSaveDataContainer = new PlayerPrefsSaveDataContainer();
             playerPrefsSaveDataContainer.Load();
             playerPrefsSaveDataContainer.ResetKey(Constants.LEVEL_SAVE_DATA_KEY);
+            Debug.Log("Cleared!");
         }
 #endif
     }

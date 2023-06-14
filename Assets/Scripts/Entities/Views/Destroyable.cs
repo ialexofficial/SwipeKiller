@@ -1,5 +1,4 @@
-﻿using Entities;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Entities.Views
 {
@@ -10,6 +9,12 @@ namespace Entities.Views
         private Rigidbody[] _partRigidbodies;
         private Collider _collider;
         private bool _isDestroyed = false;
+
+        private void Start()
+        {
+            _collider = GetComponentInChildren<Collider>();
+            _partRigidbodies = GetComponentsInChildren<Rigidbody>();
+        }
 
         public void Damage(int damage, Collider part)
         {
@@ -29,12 +34,6 @@ namespace Entities.Views
             
             gameObject.SetActive(false);
             return true;
-        }
-        
-        private void Start()
-        {
-            _collider = GetComponentInChildren<Collider>();
-            _partRigidbodies = GetComponentsInChildren<Rigidbody>();
         }
     }
 }

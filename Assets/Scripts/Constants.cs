@@ -13,5 +13,7 @@
         public const string GAMESCREEN_GAME_END_TRIGGER = "End";
 
         public const string COIN_EARN_TRIGGER = "Earn";
+
+        public const string INITIAL_TUTORIAL_STEP_SAVE_KEY = "InitialTutorialStep";
     }
 }
