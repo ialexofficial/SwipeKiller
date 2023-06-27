@@ -4,18 +4,12 @@ using UnityEngine.EventSystems;
 
 namespace Utilities
 {
-    [RequireComponent(typeof(Collider))]
+    [RequireComponent(typeof(Collider2D))]
     public class SwipeLimiter : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private float _startTime = 0;
-        private Camera _camera;
 
         public Action<PointerEventData, float> OnSwipe;
-
-        private void Start()
-        {
-            _camera = Camera.main;
-        }
 
         public void SetLimiter(Vector2 offset)
         {
@@ -34,11 +28,6 @@ namespace Utilities
         public void OnEndDrag(PointerEventData eventData)
         {
             OnSwipe?.Invoke(eventData, Time.unscaledTime - _startTime);
-        }
-
-        private void Update()
-        {
-            transform.LookAt(_camera.transform);
         }
     }
 }

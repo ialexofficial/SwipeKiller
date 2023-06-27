@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entities.Views
 {
@@ -16,13 +17,23 @@ namespace Entities.Views
         [SerializeField] private float explosionSpeed = 5f;
         [SerializeField] private LayerMask explodeInteractingLayers;
         [SerializeField] private GameObject model;
-        [SerializeField] private ParticleSystem particles;
+        [SerializeField] private ParticleSystem explosionParticles;
+        [SerializeField] private AudioSource explosionSound;
 
-        private Rigidbody _rigidbody;
-        private Collider _collider;
-        private AudioSource _audio;
+        private Rigidbody _mainRigidbody;
+        private Rigidbody[] _fragmentsRigidbodies;
+        private Collider _mainCollider;
         private bool _isExploded = false;
         private Collider[] _hitables = new Collider[64];
+        private Collider[] _fragmentsColliders;
+
+        private void Start()
+        {
+            _mainRigidbody = GetComponent<Rigidbody>();
+            _mainCollider = GetComponent<Collider>();
+            _fragmentsRigidbodies = model.GetComponentsInChildren<Rigidbody>();
+            _fragmentsColliders = model.GetComponentsInChildren<Collider>();
+        }
 
         public void Damage(int damage, Collider part = null)
         {
@@ -66,12 +77,20 @@ namespace Entities.Views
                     rigidbody.AddExplosionForce(strength, transform.position, radius);
                 }
             }
+
+            _mainCollider.enabled = false;
+            _mainRigidbody.isKinematic = true;
+            foreach (var rigidbody in _fragmentsRigidbodies)
+            {
+                rigidbody.isKinematic = false;
+            }
+            foreach (var collider in _fragmentsColliders)
+            {
+                collider.enabled = true;
+            }
             
-            model.SetActive(false);
-            _rigidbody.isKinematic = true;
-            _collider.enabled = false;
-            particles.Play();
-            _audio.Play();
+            explosionParticles.Play();
+            explosionSound.Play();
         }
 
         private void OnCollisionEnter(Collision other)
@@ -79,7 +98,7 @@ namespace Entities.Views
             if (_isExploded)
                 return;
 
-            float speed = (_rigidbody.velocity +
+            float speed = (_mainRigidbody.velocity +
                            (other.collider.attachedRigidbody?.velocity ?? Vector3.zero)
                 ).magnitude;
 
@@ -87,13 +106,6 @@ namespace Entities.Views
             {
                 Explode();
             }
-        }
-
-        private void Start()
-        {
-            _rigidbody = GetComponent<Rigidbody>();
-            _collider = GetComponent<Collider>();
-            _audio = GetComponent<AudioSource>();
         }
 
         private void OnDrawGizmosSelected()

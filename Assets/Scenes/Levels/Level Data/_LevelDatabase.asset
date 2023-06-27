@@ -15,8 +15,3 @@ MonoBehaviour:
   FirstLevel: {fileID: 11400000, guid: 9c0575991d841354cb75b6989ceeb23d, type: 2}
   Data:
   - {fileID: 11400000, guid: 9c0575991d841354cb75b6989ceeb23d, type: 2}
-  - {fileID: 11400000, guid: a9b41a11080d1bf4682cce29fe1d440c, type: 2}
-  - {fileID: 11400000, guid: f5b147cf786b48d458cf27cb0ae0d830, type: 2}
-  - {fileID: 11400000, guid: 5085e2d28aa09e94e8639254920cda2d, type: 2}
-  - {fileID: 11400000, guid: 2ffef22470bd16e4ab4ea79eca09b86d, type: 2}
-  - {fileID: 11400000, guid: 7708d50426e00d04f8efb413bdddd820, type: 2}

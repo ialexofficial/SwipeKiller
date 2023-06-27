@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using Entities.ViewModels;
 using Ji2Core.Core;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Entities.Views
 {
     [RequireComponent(typeof(Collider), typeof(Rigidbody))]
     public class Enemy : MonoBehaviour, IDamagable, ICombustible
-    {
-        [SerializeField] private ParticleSystem headshotEffect;
+    { 
+        [SerializeField] private ParticleSystem bloodEffect;
+        [SerializeField] private AudioSource bloodSound;
         [SerializeField] private Collider headCollider;
         [SerializeField] private int health;
 
@@ -20,6 +22,7 @@ namespace Entities.Views
         private Collider[] _ragdollColliders;
 
         public event Action OnDie;
+        public event Action OnHeadshot;
 
         public int Health => health;
         public Collider HeadCollider => headCollider;
@@ -63,9 +66,13 @@ namespace Entities.Views
 
         private void OnDamaged(int takenDamage, EnemyDamagedPart part)
         {
+            bloodEffect.Play();
+            bloodSound.pitch = Random.Range(.9f, 1.2f);
+            bloodSound.Play();
+            
             if (part == EnemyDamagedPart.Head)
             {
-                headshotEffect.Play();
+                OnHeadshot?.Invoke();
             }
         }
         

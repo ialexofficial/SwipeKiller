@@ -22,7 +22,7 @@ namespace GameStates
             _context.Unregister<List<Enemy>>();
             _context.Unregister<List<Coin>>();
     
-            _stateMachine.Enter<LoadingLevelState>();
+            _stateMachine.Enter<LoadLevelState>();
         }
 
         public async UniTask Exit()

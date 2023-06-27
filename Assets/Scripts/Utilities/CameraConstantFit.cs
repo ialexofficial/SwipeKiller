@@ -8,7 +8,6 @@ namespace Utilities
     /// Made for tutorial https://youtu.be/0cmxFjP375Y
     /// </summary>
     [ExecuteAlways]
-    [RequireComponent(typeof(CinemachineVirtualCamera))]
     public class CameraConstantFit : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera componentCamera;
@@ -26,6 +25,10 @@ namespace Utilities
         private void Start()
         {
             _targetAspect = defaultResolution.x / defaultResolution.y;
+            
+#if UNITY_EDITOR
+            componentCamera = GetComponent<CinemachineVirtualCamera>();
+#endif
         }
 
         public void ChangeValues(

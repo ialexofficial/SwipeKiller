@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Utilities
 {
@@ -7,16 +8,10 @@ namespace Utilities
         public static bool CheckLayer(LayerMask mask, int layer) => 
             (mask.value & (1 << layer)) != 0;
 
-        public static LayerMask MergeLayerMasks(LayerMask mask1, LayerMask mask2) =>
+        public static LayerMask MergeLayerMasks(params LayerMask[] masks) =>
             new LayerMask
             {
-                value = mask1.value | mask2.value
-            };
-
-        public static LayerMask MergeLayerMasks(LayerMask mask1, LayerMask mask2, LayerMask mask3) =>
-            new LayerMask
-            {
-                value = mask1.value | mask2.value | mask3.value
+                value = masks.Aggregate((mask1, mask2) => mask1.value | mask2.value)
             };
     }
 }

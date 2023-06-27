@@ -30,7 +30,7 @@ namespace GameStates
                     _context.GetService<WeaponDataProvider>(), _context.GetService<LevelDataProvider>(), 
                     screenNavigator, _context.GetService<TutorialService>()
                 ),
-                [typeof(LoadingLevelState)] = new LoadingLevelState(stateMachine, _context),
+                [typeof(LoadLevelState)] = new LoadLevelState(stateMachine, _context),
                 [typeof(GameState)] = new GameState(stateMachine, _context),
                 [typeof(LevelCompletedState)] = new LevelCompletedState(stateMachine, _context)
             };

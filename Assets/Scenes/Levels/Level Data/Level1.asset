@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelSceneName: Level1
   SwipeCount: -1
-  WeaponSpawnPoint: {x: 3.52, y: 0.94, z: 0}
-  CameraPosition: {x: 0.52, y: 7, z: -22}
-  FieldOfView: 50
+  WeaponSpawnPoint: {x: 2, y: -2.5, z: 0}
+  CameraPosition: {x: -1.4, y: 2.5, z: -31.16}
+  FieldOfView: 40

@@ -11,10 +11,11 @@ namespace Editor
     {
         [SerializeField] private Vector2Int defaultResolution = new Vector2Int(1920, 1080);
         [SerializeField] private float widthOrHeight = .4f;
-        [SerializeField] private float initialFoV = 90f;
-        
+        [SerializeField] private WeaponDatabase weaponDatabase;
+
         private CinemachineVirtualCamera _vcam;
         private CinemachineFramingTransposer _vcamTransposer;
+        private CameraConstantFit _cameraFit;
         private Camera _camera;
         private GameObject _weapon;
         private LevelConfig _levelConfig;
@@ -34,6 +35,7 @@ namespace Editor
 
             _weapon.transform.position = _levelConfig.WeaponSpawnPoint;
             _vcam.m_Lens.FieldOfView = _levelConfig.FieldOfView;
+            _cameraFit.ChangeValues(initialFov: _levelConfig.FieldOfView);
             _vcam.ForceCameraPosition(_levelConfig.CameraPosition, _vcam.transform.rotation);
         }
 
@@ -53,13 +55,14 @@ namespace Editor
                     typeof(CameraConstantFit)
                 )
                 .GetComponent<CinemachineVirtualCamera>();
-            _vcam.GetComponent<CameraConstantFit>().ChangeValues(
+            _cameraFit = _vcam.GetComponent<CameraConstantFit>();
+            _cameraFit.ChangeValues(
                 defaultResolution: defaultResolution,
                 widthOrHeight: widthOrHeight,
-                initialFov: initialFoV
+                initialFov: _levelConfig.FieldOfView
             );
 
-            _weapon = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            _weapon = Instantiate(weaponDatabase.DefaultWeapon.Prefab.gameObject);
             _vcamTransposer = _vcam.AddCinemachineComponent<CinemachineFramingTransposer>();
             _vcamTransposer.m_UnlimitedSoftZone = true;
             _vcamTransposer.m_DeadZoneWidth = 2f;

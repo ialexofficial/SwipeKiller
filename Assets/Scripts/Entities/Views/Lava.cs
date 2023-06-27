@@ -10,6 +10,7 @@ namespace Entities.Views
     {
         [SerializeField] private ParticleSystem destroyEffect;
         [SerializeField] private LayerMask destroyableLayers;
+        [SerializeField] private AudioSource destroySound;
 
         private Stack<ParticleSystem> effectsPull = new Stack<ParticleSystem>();
 
@@ -33,6 +34,7 @@ namespace Entities.Views
                 ParticleSystem effect = effectsPull.Pop();
                 effect.transform.position = other.transform.position;
                 effect.Play();
+                destroySound.Play();
                 StartCoroutine(ReturnEffectToPull(effect));
             }
         }

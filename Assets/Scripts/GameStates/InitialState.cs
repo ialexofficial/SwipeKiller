@@ -44,7 +44,7 @@ namespace GameStates
 
             _tutorialService.TryRunSteps();
             
-            _stateMachine.Enter<LoadingLevelState>();
+            _stateMachine.Enter<LoadLevelState>();
         }
 
         public async UniTask Exit()

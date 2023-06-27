@@ -1,25 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Entities.Views
 {
     public class Destroyable : MonoBehaviour, IDamagable, ICombustible
     {
-        [SerializeField] private ParticleSystem destroyingEffect;
-        
-        private Rigidbody[] _partRigidbodies;
-        private Collider _collider;
-        private bool _isDestroyed = false;
+        [SerializeField] private ParticleSystem destroyEffect;
+        [SerializeField] private AudioSource destroySound;
 
-        private void Start()
+        protected Collider _collider;
+        private Rigidbody[] _partRigidbodies;
+        private bool _isCombusted = false;
+
+        protected void Start()
         {
             _collider = GetComponentInChildren<Collider>();
             _partRigidbodies = GetComponentsInChildren<Rigidbody>();
         }
 
-        public void Damage(int damage, Collider part)
+        public virtual void Damage(int damage, Collider part)
         {
             _collider.enabled = false;
-            destroyingEffect.Play();
+            destroyEffect.Play();
+            destroySound.Play();
             
             foreach (Rigidbody partRigidbody in _partRigidbodies)
             {
@@ -29,7 +33,7 @@ namespace Entities.Views
 
         public bool BurnDown()
         {
-            if (_isDestroyed)
+            if (_isCombusted)
                 return false;
             
             gameObject.SetActive(false);

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf628ac29754255901fe8212d27fa7a, type: 3}
   m_Name: SwipeSettings
   m_EditorClassIdentifier: 
-  Strength: 5
+  Strength: 8
   MaxVelocity: 15
   MinTimeInteraction: 0.001
   MaxTimeInteraction: 1
   DeadZone: 0.1
-  SwipeLimiterPrefab: {fileID: 5729977375009419109, guid: a93a012c928d869418902f08014dfbff, type: 3}
+  SwipeLimiterPrefab: {fileID: 5310893062810437443, guid: a93a012c928d869418902f08014dfbff, type: 3}
